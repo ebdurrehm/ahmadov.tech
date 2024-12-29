@@ -1,50 +1,76 @@
 ---
+// Frontmatter for Astro component
+// Define props or import utilities as needed
 import { SITE_TITLE } from '../consts';
 ---
 
-<header>
-  <div class="container">
-    <h1>{SITE_TITLE}</h1>
-    <nav>
-      <ul>
-        <li><a href="/" class={Astro.url.pathname === '/' ? 'active' : ''}>Home</a></li>
-        <li><a href="/blog/" class={Astro.url.pathname.startsWith('/blog') ? 'active' : ''}>Blog</a></li>
-        <li><a href="/about/" class={Astro.url.pathname === '/about/' ? 'active' : ''}>About</a></li>
-      </ul>
+<header class="fixed w-full top-0 z-50 backdrop-blur-md bg-[#0a0a0a]/80 border-b border-purple-500/20">
+    <nav class="container mx-auto px-4 py-4">
+        <ul class="flex items-center justify-center gap-8">
+            <li>
+                <a href="/" 
+                   class="text-lg font-medium hover:text-purple-400 transition-colors">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="/blog" 
+                   class="text-lg font-medium hover:text-purple-400 transition-colors">
+                    Blog
+                </a>
+            </li>
+            <li>
+                <a href="/projects" 
+                   class="text-lg font-medium hover:text-purple-400 transition-colors">
+                    Projects
+                </a>
+            </li>
+            <li>
+                <a href="/contact" 
+                   class="text-lg font-medium hover:text-purple-400 transition-colors">
+                    Contact
+                </a>
+            </li>
+        </ul>
     </nav>
-  </div>zz
 </header>
 
 <style>
   header {
-    background-color: #282c34;
-    color: #61dafb;
-    padding: 1rem 0;
+    background: linear-gradient(to right, #0c1446, #3c096c, #202124);
+    backdrop-filter: blur(20px); /* Smooth blur effect for translucency */
   }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  h1 {
-    font-size: 1.5rem;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-  }
+  header ul {
+  display: flex;
+  align-items: center; /* Centers items vertically */
+  gap: 1.5rem; /* Space between items */
+  list-style: none; /* Removes bullet points */
+}
+
+header ul li {
+  margin: 0;
+  padding: 0;
+}
+
   nav a {
-    color: #61dafb;
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom-color 0.3s;
+    transition: color 0.3s ease, transform 0.3s ease;
   }
-  nav a.active,
+
   nav a:hover {
-    border-bottom-color: #61dafb;
+    transform: translateY(-2px);
+  }
+
+  nav a:after {
+    content: '';
+    display: block;
+    margin: 8px auto;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    transition: width 0.4s ease-in-out;
+  }
+
+  nav a:hover:after {
+    width: 100%;
   }
 </style>
