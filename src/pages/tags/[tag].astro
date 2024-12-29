@@ -1,0 +1,47 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+// Define the getStaticPaths function
+export async function getStaticPaths(): Promise<{ params: { tag: string } }[]> {
+    const posts = await getCollection('blog');
+    const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+  return tags.map(tag => ({ params: { tag } }));
+}
+
+
+// Extract the tag parameter from Astro.params
+const { tag } = Astro.params;
+
+// Fetch all blog posts
+const posts = await getCollection('blog');
+
+// Filter posts by the tag parameter
+const filteredPosts = posts.filter(post => post.data.tags?.includes(tag));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Posts tagged with "${tag}"`} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Posts tagged with "{tag}"</h1>
+      <ul>
+        {filteredPosts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <FormattedDate date={new Date(post.data.pubDate)} />
+          </li>
+        ))}
+      </ul>
+    </main>
+    <Footer />
+  </body>
+</html>

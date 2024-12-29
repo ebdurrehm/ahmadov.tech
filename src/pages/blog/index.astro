@@ -7,8 +7,10 @@ import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    (a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
 );
+
+const tags = [...new Set(posts.flatMap(post => post.data.tags))];
 ---
 
 <!doctype html>
@@ -88,6 +90,7 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
+			<h1>Blog Posts</h1>
 			<section>
 				<ul>
 					{
@@ -97,9 +100,14 @@ const posts = (await getCollection('blog')).sort(
 									<img width={720} height={360} src={post.data.heroImage} alt="" />
 									<h4 class="title">{post.data.title}</h4>
 									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
+										<FormattedDate date={new Date(post.data.pubDate)} />
 									</p>
 								</a>
+								<ul>
+									{post.data.tags?.map(tag => (
+										<li><a href={`/tags/${tag}/`}>{tag}</a></li>
+									))}
+								</ul>
 							</li>
 						))
 					}
