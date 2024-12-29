@@ -3,48 +3,195 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const projects = [
+    {
+        title: "Project One",
+        description: "A robust backend API built with Node.js and Express",
+        image: "/projects/project1.jpg",
+        github: "https://github.com/yourusername/project1",
+        demo: "https://demo.project1.com",
+        tags: ["Node.js", "Express", "MongoDB"]
+    },
+    {
+        title: "Project Two",
+        description: "Database optimization and scaling solution",
+        image: "/projects/project2.jpg",
+        github: "https://github.com/yourusername/project2",
+        demo: "https://demo.project2.com",
+        tags: ["PostgreSQL", "Redis", "Docker"]
+    }
+];
+
+const skills = [
+    {
+        category: "Backend",
+        technologies: ["Node.js", "Python", "Java", "RESTful APIs"]
+    },
+    {
+        category: "Database",
+        technologies: ["PostgreSQL", "MongoDB", "Redis", "MySQL"]
+    },
+    {
+        category: "DevOps",
+        technologies: ["Docker", "Kubernetes", "AWS", "CI/CD"]
+    }
+];
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body class="bg-[#0a0a0a] text-white font-['Space_Grotesk']">
+        <div class="relative min-h-screen">
+            <!-- Background Effects -->
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black -z-10">
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+            </div>
+
+            <Header />
+
+            <!-- Hero Section -->
+            <section class="min-h-[90vh] flex flex-col items-center justify-center px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-500">
+                            Building Robust Backend Solutions
+                        </span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-400 mb-8">
+                        I specialize in <span id="typing-text"></span>
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="#projects" 
+                           class="group relative px-8 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full overflow-hidden">
+                            <span class="relative z-10">View Projects</span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </a>
+                        <a href="#contact" 
+                           class="px-8 py-3 border border-purple-500 rounded-full hover:bg-purple-500/10 transition-colors">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="py-20 px-4">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-12">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-500">
+                            Featured Projects
+                        </span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {projects.map(project => (
+                            <article class="group relative">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg opacity-75 group-hover:opacity-100 transition duration-300 blur"></div>
+                                <div class="relative bg-[#0a0a0a] p-6 rounded-lg h-full">
+                                    <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
+                                    <p class="text-gray-400 mb-4">{project.description}</p>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        {project.tags.map(tag => (
+                                            <span class="px-3 py-1 bg-purple-500/10 rounded-full text-sm">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div class="flex gap-4">
+                                        <a href={project.github} 
+                                           class="px-4 py-2 bg-purple-500/10 rounded-md hover:bg-purple-500/20 transition-colors">
+                                            GitHub
+                                        </a>
+                                        <a href={project.demo}
+                                           class="px-4 py-2 bg-cyan-500/10 rounded-md hover:bg-cyan-500/20 transition-colors">
+                                            Live Demo
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="py-20 px-4">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-4xl font-bold text-center mb-12">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-500">
+                            Technical Skills
+                        </span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {skills.map(skill => (
+                            <div class="group relative">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg opacity-75 group-hover:opacity-100 transition duration-300 blur"></div>
+                                <div class="relative bg-[#0a0a0a] p-6 rounded-lg h-full">
+                                    <h3 class="text-xl font-bold mb-4">{skill.category}</h3>
+                                    <ul class="space-y-2">
+                                        {skill.technologies.map(tech => (
+                                            <li class="text-gray-400 flex items-center gap-2">
+                                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
+                                                {tech}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-4xl font-bold mb-12">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-cyan-500">
+                            Get In Touch
+                        </span>
+                    </h2>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input type="text" 
+                                   placeholder="Name" 
+                                   class="bg-[#1a1a1a] border border-purple-500/20 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500">
+                            <input type="email" 
+                                   placeholder="Email" 
+                                   class="bg-[#1a1a1a] border border-purple-500/20 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500">
+                        </div>
+                        <textarea placeholder="Message" 
+                                  rows="5" 
+                                  class="w-full bg-[#1a1a1a] border border-purple-500/20 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"></textarea>
+                        <button type="submit" 
+                                class="px-8 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full hover:opacity-90 transition-opacity">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <Footer />
+        </div>
+		
+		<script>
+			import Typed from 'typed.js'
+			new Typed('#typing-text', {
+			  strings: ['Node.js Development', 'API Design', 'Database Architecture', 'Cloud Solutions'],
+			  typeSpeed: 50,
+			  backSpeed: 50,
+			  loop: true,
+			});
+		  </script>
+		  
+
+
+		
+    </body>
 </html>
