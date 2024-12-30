@@ -32,4 +32,10 @@ const skills = [
     }
 ];
 
-export { projects, skills };
+const socialLinks = [
+    { name: 'GitHub', url: 'https://github.com/ebdurrehm' },
+    { name: 'LinkedIn', url: 'https://linkedin.com/in/abdurrahim-ahmadov' },
+    { name: 'Twitter', url: 'https://twitter.com/ebdurrehm' }
+];
+
+export { projects, skills, socialLinks };
