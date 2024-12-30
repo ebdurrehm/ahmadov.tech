@@ -5,61 +5,72 @@ import { SITE_TITLE } from '../consts';
 ---
 
 <header class="fixed w-full top-0 z-50 backdrop-blur-md bg-black/80 border-b border-neutral-800">
-    <nav class="container mx-auto px-4 py-4">
-        <ul class="flex items-center justify-center gap-8">
-            <li>
-                <a href="/" 
-                   class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="/blog" 
-                   class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
-                    Blog
-                </a>
-            </li>
-            <li>
-                <a href="/projects" 
-                   class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
-                    Projects
-                </a>
-            </li>
-            <li>
-                <a href="/contact" 
-                   class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
-                    Contact
-                </a>
-            </li>
-        </ul>
+    <nav class="container mx-auto px-4 py-4 md:py-6">
+        <div class="flex items-center justify-between">
+            <!-- Brand -->
+            <a href="/" class="group">
+                <h1 class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500 group-hover:opacity-80 transition-opacity">
+                    Abdulrahim Ahmadov
+                </h1>
+                <p class="text-xs md:text-sm text-neutral-400 group-hover:text-neutral-300 transition-colors">Backend Developer</p>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="block lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden lg:flex items-center space-x-8">
+                <li>
+                    <a href="/" class="text-lg font-medium text-white hover:text-green-500 transition-colors">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/blog" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
+                        Blog
+                    </a>
+                </li>
+                <li>
+                    <a href="/projects" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
+                        Projects
+                    </a>
+                </li>
+                <li>
+                    <a href="/contact" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden fixed inset-x-0 top-0 z-50">
+                <!-- Solid background overlay -->
+                <div class="absolute inset-0">
+                    <div class="flex justify-end p-2">
+                        <button id="close-menu" class="text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col items-center gap-4 py-4 backdrop-blur-3xl">
+                        <a href="/" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Home</a>
+                        <a href="/blog" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Blog</a>
+                        <a href="/projects" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Projects</a>
+                        <a href="/contact" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Contact</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </nav>
 </header>
 
+<!-- Remove all auto-generated styles -->
 <style>
-  header {
-    background: linear-gradient(to right, #000000, #140d1a, #000000);
-    backdrop-filter: blur(20px); /* Smooth blur effect for translucency */
-  }
-  header ul {
-  display: flex;
-  align-items: center; /* Centers items vertically */
-  gap: 1.5rem; /* Space between items */
-  list-style: none; /* Removes bullet points */
-}
-
-header ul li {
-  margin: 0;
-  padding: 0;
-}
-
-  nav a {
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-
-  nav a:hover {
-    transform: translateY(-2px);
-  }
-
   nav a:after {
     content: '';
     display: block;
@@ -74,3 +85,19 @@ header ul li {
     width: 100%;
   }
 </style>
+
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const closeMenuButton = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+</script>
