@@ -6,42 +6,61 @@ import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import FormattedDate from '../../components/FormattedDate.astro';
 
-// Define the getStaticPaths function
-export async function getStaticPaths(): Promise<{ params: { tag: string } }[]> {
+export async function getStaticPaths() {
     const posts = await getCollection('blog');
     const tags = [...new Set(posts.flatMap(post => post.data.tags))];
-  return tags.map(tag => ({ params: { tag } }));
+    return tags.map(tag => ({ params: { tag } }));
 }
 
-
-// Extract the tag parameter from Astro.params
 const { tag } = Astro.params;
-
-// Fetch all blog posts
 const posts = await getCollection('blog');
-
-// Filter posts by the tag parameter
 const filteredPosts = posts.filter(post => post.data.tags?.includes(tag));
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <BaseHead title={`Posts tagged with "${tag}"`} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <h1>Posts tagged with "{tag}"</h1>
-      <ul>
-        {filteredPosts.map((post) => (
-          <li>
-            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-            <FormattedDate date={new Date(post.data.pubDate)} />
-          </li>
-        ))}
-      </ul>
-    </main>
-    <Footer />
-  </body>
+    <head>
+        <BaseHead title={`Posts tagged with "${tag}"`} description={SITE_DESCRIPTION} />
+    </head>
+    <body class="bg-[#0a0a0a] text-white">
+        <Header />
+        <main class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto py-32">
+                <h1 class="text-4xl md:text-5xl font-bold text-center mb-16">
+                    Posts tagged with 
+                    <span class="text-[#ff6f61]">"{tag}"</span>
+                </h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredPosts.map((post) => (
+                        <a href={`/blog/${post.id}/`} 
+                           class="group relative p-0.5 rounded-xl bg-gradient-to-r from-green-500 to-cyan-500 overflow-hidden">
+                            <div class="relative h-full p-6 rounded-[11px] bg-[#0a0a0a]">
+                                {post.data.heroImage && (
+                                    <div class="relative h-48 mb-4 rounded-lg overflow-hidden">
+                                        <img 
+                                            src={post.data.heroImage} 
+                                            alt="" 
+                                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        />
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent"></div>
+                                    </div>
+                                )}
+                                <h2 class="text-xl font-semibold mb-2 text-white group-hover:text-green-500 transition-colors">
+                                    {post.data.title}
+                                </h2>
+                                <p class="text-sm text-white/80 mb-4">
+                                    {post.data.description}
+                                </p>
+                                <div class="text-sm text-neutral-400">
+                                    <FormattedDate date={new Date(post.data.pubDate)} />
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </main>
+        <Footer />
+    </body>
 </html>
