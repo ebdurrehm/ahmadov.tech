@@ -26,6 +26,13 @@ jobs:
         run: |
           npm run build  # This will output to the default directory `dist/`
 
+      # Upload the build output to an artifact
+      - name: Upload build output as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github-pages
+          path: dist/
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -37,6 +44,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: newVersion  # Ensure it's on the correct branch.
+
+      - name: Download build output artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: github-pages
 
       - name: Deploy to GitHub Pages
         id: deployment
