@@ -7,8 +7,8 @@ const authorInfo = {
     role: "Backend Developer",
     bio: "Building robust backend solutions and scalable architectures",
     social: {
-        github: "https://github.com/yourusername",
-        linkedin: "https://linkedin.com/in/yourusername",
+        github: "https://github.com/ebdurrehm",
+        linkedin: "https://linkedin.com/in/abdurrahim-ahmadov",
     }
 };
 
