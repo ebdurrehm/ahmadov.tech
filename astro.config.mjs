@@ -9,4 +9,5 @@ import tailwind from '@astrojs/tailwind'
 export default defineConfig({
 	site: 'https://ahmadov.tech',
 	integrations: [mdx(), sitemap(), react(), tailwind()],
+	base:'/'
 });

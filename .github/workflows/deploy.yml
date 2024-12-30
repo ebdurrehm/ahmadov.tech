@@ -1,11 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
-    branches: [ newVersion ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
+    branches: [ newVersion ]  # Adjust your main branch here
   workflow_dispatch:
 
 # Allow this job to clone the repo and create a page deployment
@@ -20,12 +17,14 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
-        # with:
-          # path: . # The root location of your Astro project inside the repository. (optional)
-          # node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
-          # package-manager: pnpm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
+
+      - name: Install Dependencies
+        run: |
+          npm install # Adjust if you're using pnpm or yarn
+
+      - name: Build the Astro Project
+        run: |
+          npm run build  # This will output to the default directory `dist/`
 
   deploy:
     needs: build
@@ -34,6 +33,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout repository again
+        uses: actions/checkout@v4
+        with:
+          ref: newVersion  # Ensure it's on the correct branch.
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          branch: gh-pages   # The target branch where your GitHub Pages site lives
+          folder: dist        # The build output folder where Astro places the static files
+
