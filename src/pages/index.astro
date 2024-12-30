@@ -5,45 +5,12 @@ import Footer from '../components/Footer.astro';
 import BlogGrid from '../components/BlogGrid.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
+import { projects, skills } from '../data/index';
 
 // Get latest 3 posts
 const posts = (await getCollection('blog'))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 3);
-
-const projects = [
-    {
-        title: "Project One",
-        description: "A robust backend API built with Node.js and Express",
-        image: "/projects/project1.jpg",
-        github: "https://github.com/yourusername/project1",
-        demo: "https://demo.project1.com",
-        tags: ["Node.js", "Express", "MongoDB"]
-    },
-    {
-        title: "Project Two",
-        description: "Database optimization and scaling solution",
-        image: "/projects/project2.jpg",
-        github: "https://github.com/yourusername/project2",
-        demo: "https://demo.project2.com",
-        tags: ["PostgreSQL", "Redis", "Docker"]
-    }
-];
-
-const skills = [
-    {
-        category: "Backend",
-        technologies: ["Node.js", "Python", "Java", "RESTful APIs"]
-    },
-    {
-        category: "Database",
-        technologies: ["PostgreSQL", "MongoDB", "Redis", "MySQL"]
-    },
-    {
-        category: "DevOps",
-        technologies: ["Docker", "Kubernetes", "AWS", "CI/CD"]
-    }
-];
 ---
 
 <!doctype html>
