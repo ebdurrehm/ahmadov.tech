@@ -53,7 +53,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          branch: gh-pages   # The target branch where your GitHub Pages site lives
-          folder: dist        # The build output folder where Astro places the static files
-
