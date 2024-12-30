@@ -13,6 +13,7 @@
     "@astrojs/react": "^4.1.2",
     "@astrojs/rss": "^4.0.10",
     "@astrojs/sitemap": "^3.2.1",
+    "@tailwindcss/typography": "^0.5.15",
     "astro": "^5.1.1",
     "typed.js": "^2.1.0"
   },
