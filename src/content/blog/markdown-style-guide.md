@@ -3,6 +3,16 @@ title: 'Markdown Style Guide'
 description: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
 pubDate: 'Jun 19 2024'
 heroImage: '/blog-placeholder-1.jpg'
+tags: ['markdown']
+updatedDate: '12-30-2024'
+author:
+  name: "Abdulrahim Ahmadov"
+  avatar: "/images/author.jpg"
+  role: "Backend Developer"
+  bio: "Building robust backend solutions and scalable architectures"
+  social:
+    github: "https://github.com/yourusername"
+    linkedin: "https://linkedin.com/in/yourusername"
 ---
 
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
@@ -52,6 +62,10 @@ The blockquote element represents content that is quoted from another source, op
 ```markdown
 > Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
 > **Note** that you can use _Markdown syntax_ within a blockquote.
+```
+
+```javascript
+let variable = 2;
 ```
 
 #### Output
