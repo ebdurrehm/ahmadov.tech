@@ -1,17 +1,79 @@
 ---
-const today = new Date();
+const currentYear = new Date().getFullYear();
+const socialLinks = [
+    { name: 'GitHub', url: 'https://github.com/yourusername' },
+    { name: 'LinkedIn', url: 'https://linkedin.com/in/yourusername' },
+    { name: 'Twitter', url: 'https://twitter.com/yourusername' }
+];
 import Header from './Header.jsx';
 ---
 
-<footer class="bg-gray-900 py-4 mt-6">
-  <div class="max-w-7xl mx-auto px-4 text-center text-white text-sm">
-    <p>&copy; {new Date().getFullYear()} My Website. All rights reserved.</p>
-  </div>
+<footer class="relative mt-20">
+    <!-- Gradient Border -->
+    <div class="h-px bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
+    
+    <!-- Main Footer -->
+    <div class="bg-[#000000] relative">
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Brand -->
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500">
+                        Abdulrahim Ahmadov
+                    </h3>
+                    <p class="text-white/80 mt-2">Backend Developer</p>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="text-center">
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" class="text-white hover:text-green-400 transition-all duration-300">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#projects" class="text-white hover:text-green-400 transition-all duration-300">
+                                Projects
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#skills" class="text-white hover:text-green-400 transition-all duration-300">
+                                Skills
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="text-white hover:text-green-400 transition-all duration-300">
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Social Links -->
+                <div class="text-center md:text-right">
+                    <div class="flex justify-center md:justify-end space-x-6">
+                        {socialLinks.map(link => (
+                            <a href={link.url} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="text-white hover:text-green-400 transition-all duration-300">
+                                {link.name}
+                            </a>
+                        ))}
+                    </div>
+                    <p class="text-white/60 mt-6">
+                        © {currentYear} All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
 <style>
 	footer {
 		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		background: #000000 no-repeat;
 		color: rgb(var(--gray));
 		text-align: center;
 	}
