@@ -1,0 +1,372 @@
+---
+title: "How did I manage to create a smart contract in web3?"
+pubDate: "2022-05-23"
+description: "I have been working on a project that requires me to create a smart contract in web3. I have been using web3.js to interact with the NEAR protocol and create a smart contract. In this blog post, I will share my experience of creating a smart contract in web3."
+tags: ["web3", "smart contract", "NEAR protocol"]
+heroImage: "https://miro.medium.com/v2/resize:fit:828/format:webp/0*HwGP_DWw26wqHZgU"
+---
+
+I have been investigating web3 for a long time. I had not any idea what is web3, and why this concept so popular today. So I decided to enter that and learn it. To tell truth, the first time when I faced a lot of complicated topics in this new field, I give up on this aim and believed that I can’t learn web3 and this area is not for me. Because in order to develop a real backend project on web3, it is necessary to get acquainted with the basic theories of web3.
+
+During my web3 investigating time, I have found one of the best and most structured Bootcamp in the web3 field, which is created by [**Patika**](https://www.patika.dev/), and after that, I decided to apply this Bootcamp to learn web3.
+
+I don’t normally like frontend on web2, so I wanted to learn backend on web3 as well. Patika created excellent conditions for this and taught how to create smart contracts that are the backend of web3 through NEAR-PROTOCOL.
+
+My journey started…
+===================
+
+In the “Patika” bootcamp, first I learned the basics of the web3, such as blockchain, decentralized term, Dapp, Smart Contract, FT-NFT, DeFi, DAO, Bitcoin, Ethereum, and so on. After learning the above basic theoretical knowledge, I started studying near SDK to create a smart contract.
+
+What is the NEAR?
+=================
+
+NEAR is the most developer-friendly platform for building decentralized applications and the third fastest-growing cryptocurrency ecosystem for developers!
+
+Near offers developers two types of SDK to create decentralized apps: Rust and AssemblyScript SDKs.
+
+What is the AssemblyScript?
+===========================
+
+>It is similiar to TypeScript but with WebAssembly types, has some constraints due to compiling strictly typed code ahead of time, but also some additions originating in WebAssembly’s feature set. While not all of TypeScript can be supported, its close relation to JavaScript makes it a familiar choice for developers who are already used to writing code for the Web, and also has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly modules
+
+Before applying near Bootcamp I had mediocre skills in node.js and typescript, so I used AssemblyScript comfortably. If you want to learn more about it you can visit this [link](https://www.assemblyscript.org/introduction.html).
+
+My smart contract
+=================
+
+I have created a simple CRUD smart contract, whose name is “Artenc”**:**
+
+**Idea:**
+---------
+
+“Artenc” is a paid encyclopedia. Anyone who writes an article can place their article in this encyclopedia. As articles are used by users and the number of articles added by the author increases, the author is rewarded. As a result, both the contract holder and the author of the article can make a profit.
+
+**Details:**
+
+First of all, we need to properly structure the project. There is almost no need to create contract structures from scratch because they are templated. The main logic of the contract you create is in the **assembly folder**. In this folder, you can set up your own logic and structure to make the program work the way you want it to. Therefore, I will explain the basic logic directly without touching on other parts. I have created 3 files in the Assembly folder.
+```
+assembly
+  ├── index.ts   # contains code for the contract
+  └── model.ts #contains code for the model(s) accessible to the       contract
+  └── utils.ts #contains code for helper functions
+```
+
+
+**index.ts**, **model.ts**, and **utils.ts**.
+
+The index.ts file is the main entry point of the program. That is, our basic logic is created here, and in other respects, it is called here. As I mentioned earlier, the singleton pattern is used more often when creating a smart contract. That’s why I used the singleton pattern here.
+
+We first import the API we will need from near assembly script SDK.
+
+1.  **Context** contains execution context information. For example, sender, added token, etc.
+    
+2.  The **ContractPromiseBatch** class contains many methods. We will use the **transfer** method of this class.
+    
+3.  **PersistentSet** is data structure that wraps storage to appear like a Set.
+    
+
+Then we import the required data classes from the model.ts file and the necessary helper methods from the util.ts module. We will create these functions later.
+
+Model.ts file.
+==============
+
+Here we create the two main data classes we need. Here the first class stores all the data of an article. The second class is a class that does not have the url property but has other common properties.
+
+You have to pay a certain NEAR token to get the url of the article. Below I present the general model.ts file:
+
+```typescript
+// main article class
+@nearBindgen
+export class Article{
+  url:string;
+  title:string;
+  sender: string;
+
+  id:string 
+  constructor(url:string, title:string, sender:string){
+      this.url =url;
+      this.sender = sender;
+      this.title = title;
+      //cannot create a random UID, AssemblyScript gives an error
+      this.id = this.title.slice(3)+'-'+this.sender.slice(0,2);
+  }
+ 
+}
+
+// article class without url property
+@nearBindgen
+export class generalArticle{
+  title:string;
+  sender:string;
+  id:string;
+  constructor(title:string, sender:string,id:string){
+      this.title=title;
+      this.sender = sender;
+      this.id=id
+  }
+}
+```
+
+index.ts file
+=============
+
+We will first create our contract class in the \`index.ts\` file. This class is the main part where the logic of the contract is governed.
+
+I have stored our contract data on **PersistentSet**. This is a collection type in AssemblyScript. PersistentSet abstracts the storage class and offers us many useful methods for connecting to storage. Note that when we store our data on PersistentSet, the automatic data is stored in storage when we deploy it to the blockchain.
+
+Initially, we assign private properties **CONTRACT\_OWNER**, **MIN\_FEE**, **amount** within the contract class. Then we set this information in the constructor. When the contract is initiated with the **init** function, the constructor will run and set these values. We will see this soon.
+
+Here @nearBindgen is a decorator made for the serialization of custom classes before they are saved to storage on the blockchain.
+
+```typescript
+import { context, ContractPromiseBatch, PersistentSet, u128 } from "near-sdk-as";
+import { Article, generalArticle } from "./model";
+import { checkData, checkDonation, checkOwner,  returnMetaArticle, update, findAuthorArticle } from "./utils";
+
+
+@nearBindgen
+export class Contract {
+    //owner of the contract
+  private CONTRACT_OWNER: string;
+  //minumum amount what required for adding a new article to the BLOCKCHAIN 
+  private MIN_FEE: u128 = u128.from("1000000000000000000000000"); //=1 NEAR
+  private amount:u128;
+  //initialize the project and define the owner of the project
+  //this owner is used  later to run administrative commands
+
+  constructor(owner: string) {
+    this.CONTRACT_OWNER = owner;
+    this.amount =u128.Zero;
+  }}
+
+//define Articles container on the storage
+export let Articles = new PersistentSet<Article>("a");
+```
+
+The initial state of our contract class
+
+Everything is ready and we can move on to our “crud methods”. There are two types of methods in NEAR: **view methods** and **call methods**. View methods simply read-only operations and do not make any changes to the blockchain. Call methods make changes to the blockchain and run is paid.
+
+**Add method.**
+===============
+
+Our first method is the add method and is used to add a new article.
+
+```typescript
+ // add  new article to the contract
+  // first check if user added required NEAR to context
+  // check whether the data added
+  //then create new Article object
+  // check if the article object is already added or not. If article is not in the storage, then
+  // add the new article to the storage
+  add(url: string, title: string): string {
+    const userDonation = context.attachedDeposit;
+    checkDonation(userDonation, this.MIN_FEE);
+    checkData(url, title);
+    const article = new Article(url, title, context.sender);
+    if (Articles.has(article)) {
+      return "this article already added";
+    }
+    else {
+      Articles.add(article);
+      if (Articles.has(article)) {
+        return "Project is added successfully";
+      } else {
+        return "something went wrong"
+      }
+    }
+  }
+```
+The add method takes the url and title parameters from the user, first verifies that the user has paid at least 1 NEAR, and then provides the required information. If all goes well, a new article instance is created from the Article class and checked to see if the object already exists within **PersistentSet**. If it is OK at this stage, then a new article is added to the storage.
+
+**updateArticle method**
+========================
+
+The updateArticle method is a call method, so we require a token from the user in all three of these methods. This method retrieves the fields to be updated from the user and passes them to the helper **update** method to update the article in storage and return the updated version.
+
+updateArticle method
+
+```typescript
+ //find article by the id and update
+   updateArticle(id:string, title?:string, url?:string):Array<Article>{
+    checkDonation(context.attachedDeposit, this.MIN_FEE);
+      let updatedArticle = update(id, title, url);
+      return updatedArticle
+  }
+```
+The update helper method searches the article on **PersistentSet** for the given **id** and checks that the requesting user is actually the owner of the article, and if so, updates. Using loop for here is bad in terms of performance, but other methods did not work in AssemblyScript and I had to use for loop. (It needs to be improved)
+
+update helper method
+
+```typescript
+import { Article, generalArticle} from "./model";
+import { Articles} from "./index";
+import { context, u128 } from "near-sdk-as";
+
+
+export function update(id:string, title?:string, url?:string):Array<Article>{
+    let updatedArticle = new Array<Article>();
+    for (let i = 0; i < Articles.size; i++) {
+        if (Articles.values()[i].id == id) {
+            assert(Articles.values()[i].sender == context.sender, "you are not the author of the this article")
+            const article = Articles.values()[i];
+            article.title = typeof title ==='string'?title:article.title;
+           article.url= typeof url ==='string'?url:article.url;
+            Articles.delete(Articles.values()[i]);
+            Articles.add(article);
+            updatedArticle.push(article);
+        }
+    }
+    return updatedArticle
+}
+```
+
+**deleteArticle method.**
+=========================
+
+The deleteArticlemethod only allows the contract owner to delete the article. Finds and deletes an article based on a given id.
+
+```typescript
+ //delete article
+  //check if the the sender of the transaction is owner of the contract
+  // then delete the sender data from the storage
+  deleteArticle(id: string): string {
+
+    checkOwner(context.sender,this.CONTRACT_OWNER);
+    let article: Article;
+
+    for (let i = 0; i < Articles.values().length; i++) {
+      if (Articles.values()[i].id == id) {
+        article = Articles.values()[i];
+        Articles.delete(article);
+        return `the ${id} data deleted successfully`;
+      }
+    }
+    return `the ${id} has not article on the storage`
+
+
+  }
+```
+**useArtice method.**
+=====================
+
+This is the main method of the article. When a user calls this method, it first finds the author’s articles and checks their number. If the author has at least 5 articles, it determines the amount according to the number of articles and rewards the author by sending it to the help method sendNearToWriter, and returns all the articles of the author to the user.
+
+useArticle method
+
+The **findAuthorArticles** helper method finds and returns the author’s articles from storage
+
+```typescript
+// get specific article with its all data url, sender and title
+//check whether writer has at least 5 articles
+// then define properly amount and send this amount via sendNearToWriter method
+ 
+useArticle(author:string):Array<Article>{
+    
+  let authorArticles = findAuthorArticle(author);
+   
+    switch(authorArticles.length){
+      case 5:
+        this.amount =u128.from("2000000000000000000000000");
+        break;
+      case 10:
+        this.amount = u128.from("4000000000000000000000000");
+        break;
+      case 15:
+        this.amount = u128.from("6000000000000000000000000");
+        break;
+      case 20:
+        this.amount = u128.from("8000000000000000000000000");
+      default:
+        this.amount = u128.Zero;
+    }
+    this.sendNearToWriter(this.amount, author);
+    return authorArticles
+}
+```
+The **sendNearToWriter** method transfers the amount received as a parameter from the contract account to the author’s wallet.
+
+```typescript
+ //donate the writer
+  // if the writers have 5 article at least,and contract's users are used their articles, then send 2 NEAR to these writers' balance 
+  private sendNearToWriter(amount:u128, author:string): string {
+    
+        const to_writer = ContractPromiseBatch.create(author);
+        to_writer.transfer(amount);
+      
+      return `you donated these/this ${author} writers/writer`
+    }
+```
+Other view methods.
+===================
+```typescript
+/==============================================VIEW METHODS===========================================================
+
+  //get current contract's balance
+  getBalance(): u128 {
+    const balance:u128 = u128.from(context.accountBalance);
+    return balance;
+
+  }
+
+  //get all of the added articles without url property
+  // because user views this article's title and sender 
+  //and if user is interested with it then calls useArticle method 
+  //then can see the url of the this article
+  getArticles(): Array<generalArticle> {
+
+    return returnMetaArticle();
+  }
+
+
+  //viwe how many articles are in the blockchaine  
+  getArticleSize(): i32 {
+    return Articles.size;
+  }
+
+
+}
+```
+Let’s check if the contract works
+=================================
+
+You must have near CLI installed to run the contract. Let’s initiate the contract and appoint the author of the contract
+
+I wrote a bash script for each method in the project’s scripts folder. You can easily test all methods and contracts by running these scripts.
+
+Let’s run the first .scripts/init.sh . This script initiates the contract by running the constructor of the contract class. You can get acquainted with the code of the script on [GitHub.](https://github.com/ebdurrehm/artenc/tree/main/scripts)
+![initilazing contract](https://miro.medium.com/v2/resize:fit:828/format:webp/0*v41YrSiWkBhAwAHZ)
+this command initiates the contract and assigns the contract owner (near-account)
+
+Then let’s add 5 articles to the contract
+![add articles](https://miro.medium.com/v2/resize:fit:828/format:webp/0*rlkzCDOJqlWgP7rP)
+
+Here we add 5 articles to the contract by running a script.
+
+Then run the script to test the **useArticle** method:
+![use article](https://miro.medium.com/v2/resize:fit:828/format:webp/0*VgHw8a-Zp5WCaZQe)
+This script returns all articles by abdur23.testnet. And also because the author has at least 5 articles, NEAR is transferred to his account.
+
+If we open the link given in terminal, we will see what happened as follows:
+![result](https://miro.medium.com/v2/resize:fit:828/format:webp/0*VwMTPIHQPxjTtsIB)
+In fact, 2 NEARs were transferred to the author’s account
+
+To view all the author’s general articles, let’s run the following script:
+![get articles](https://miro.medium.com/v2/resize:fit:828/format:webp/0*9N8LixZOOiz5Dkh0)
+As you can see, because this is a free method, the urls of the articles are not visible to the user.
+
+Let’s see how many articles are currently in the contract:
+![get article size](https://miro.medium.com/v2/resize:fit:828/format:webp/0*me70zo3_8tjHZlMk)
+Let’s see how many NEAR tokens are currently on the balance of this contract:
+![get balance](https://miro.medium.com/v2/resize:fit:750/format:webp/0*B_WmrK07Ks-AeG0y)
+Let’s update any article in storage:
+![update article](https://miro.medium.com/v2/resize:fit:828/format:webp/0*NzmDHpyPjz9emNHk)
+And with our last method, the **deleteArticle** method, delete the article from storage:
+![delete article](https://miro.medium.com/v2/resize:fit:828/format:webp/0*bRu9K7qyYGNo2RMJ)
+I recommend that you pay attention to the project’s GitHub repo so that you can read all the scripts and helper methods at the same time.
+
+You can run this project (**artenc.abdur23.testnet**) directly over the testnet blockchain network. At the same time, if you want, you can deploy this project directly to the mainnet network . You can read the detailed explanation in github repo.
+
+You can also create a full-stack web3 app by creating the frontend on this backend project. To do this, you will need NEAR’s javascript API.
+
+Thank you for reading to the end. I’m not a web3 professional, so I can make technical mistakes in this article. If you find any mistakes, please let me know.
