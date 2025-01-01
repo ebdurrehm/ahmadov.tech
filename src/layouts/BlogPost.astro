@@ -13,7 +13,11 @@ const { title, description, pubDate, updatedDate, heroImage, author } = Astro.pr
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead 
+            title={title} 
+            description={description} 
+            image={heroImage}
+        />
     </head>
     <body class="bg-[#0a0a0a] text-white">
         <Header />
