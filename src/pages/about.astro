@@ -1,0 +1,206 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Timeline from '../components/timeline.astro';
+
+const experience = [
+    {
+        title: "Software Engineer",
+        company: "PRONET LLC",
+        date: "Sep 2021 - Current",
+        location: "Baku, Azerbaijan",
+        description: [
+            "Maintained ERP software applications",
+        ]
+    },
+];
+
+const education = [
+    {
+        degree: "MSc. Intelligent Systems",
+        school: "Technical University of Košice",
+        date: "Sep 2024 - Present",
+        location: "Kosice, Slovakia"
+    },
+    {
+        degree: "Bachelor's in Information Technology",
+        school: "Azerbaijan Technical University",
+        date: "Sep 2016 - Sep 2020",
+        location: "Baku, Azerbaijan",
+        grade: "94.5"
+    }
+];
+
+const skills = [
+    { category: "Programming", items: ["Node.js", "JavaScript", "Python", "AssemblyScript"] },
+    { category: "Frameworks", items: ["Express.js", "Socket.io", "Passport.js", "React.js"] },
+    { category: "Database", items: ["PostgreSQL", "MongoDB"] },
+    { category: "Tools", items: ["Docker", "CI/CD", "Git", "Linux"] }
+];
+
+const languages = [
+    { name: "Azerbaijani", level: "Native" },
+    { name: "English", level: "B2" },
+    { name: "Turkish", level: "C1" },
+    { name: "German", level: "A2" }
+];
+
+const hobbies = [
+    {
+        title: "AI & ML",
+        description: "Exploring AI and machine learning technologies",
+        icon: "🤖"
+    },
+    {
+        title: "Blogging",
+        description: "Sharing knowledge through blogs on ahmadov.tech",
+        icon: "✍️"
+    },
+    {
+        title: "Open Source",
+        description: "Building open-source projects and participating in tech communities",
+        icon: "🌟"
+    },
+    {
+        title: "Reading",
+        description: "Reading books on technology, philosophy, and psychology",
+        icon: "📚"
+    },
+    {
+        title: "Table Tennis",
+        description: "Playing table tennis with friends and colleagues, participating in local tournaments",
+        icon: "🏓"
+    }
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title="About Me | Abdulrahim Ahmadov" description="Software Engineer specializing in backend development and AI" />
+    </head>
+    <body class="bg-[#0a0a0a] text-white">
+        <Header />
+        
+        <main class="container mx-auto px-4 py-32 bg-gray-900/90 rounded-xl backdrop-blur-sm">
+            <!-- Hero Section -->
+            <div class="max-w-3xl mx-auto mb-24 text-center">
+<!-- Profile Image -->
+<div class="relative w-64 h-64 mx-auto mb-8 group">
+    <div class="absolute inset-0 rounded-full bg-gradient-to-r from-green-500 to-cyan-500 animate-pulse"></div>
+    <div class="relative w-full h-full p-[3px] rounded-full overflow-hidden">
+        <img 
+            src="/images/profile.jpg" 
+            alt="Abdulrahim Ahmadov" 
+            class="w-full h-full object-cover rounded-full transform-gpu"
+            width="256"
+            height="256"
+            loading="eager"
+        />
+    </div>
+</div>
+
+                <h1 class="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500">
+                    Abdulrahim Ahmadov
+                </h1>
+                <p class="text-2xl font-medium text-white/90 mb-4">
+                    Software Engineer
+                </p>
+                <p class="text-lg text-white/60">📍 Košice, Slovakia</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-24">
+                <!-- Professional Summary -->
+                <section class="prose prose-invert max-w-none">
+                    <p class="text-xl leading-relaxed text-neutral-300">
+I am Abdulrrahim Ahmadov, a passionate Software Engineer currently pursuing a Master degree in Intelligent Systems at the Technical University of Košice. My journey in technology began with a fascination for solving complex problems through code, leading me to specialize in Artificial Intelligence (AI) and Machine Learning (ML).
+
+My expertise lies in developing robust backend systems, architecting scalable solutions, and staying at the forefront of innovative technology trends. I strive to bridge the gap between traditional development and AI-driven solutions, creating impactful projects that make a difference.
+
+I’m an advocate for continuous learning and sharing knowledge, which is why I maintain a personal blog on ahmadov.tech, where I write about backend development, AI applications, and my experiences exploring cutting-edge technologies.
+
+Some key aspects of my professional and academic life include:
+- Building a strong foundation in Information Technology, achieved during my Bachelor's studies.
+- Diving deep into AI and ML concepts while earning my Master’s degree.
+- Gaining hands-on experience with tools and frameworks such as Node.js, PostgreSQL, Docker, and AWS.
+- Exploring emerging topics in AI, such as GANs and Retrieval-Augmented Generation (RAG).
+
+I’m driven by curiosity and a commitment to excellence, whether it’s mastering a new technology or crafting a solution that addresses real-world challenges.
+                    </p>
+                </section>
+
+                <!-- Skills Matrix -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-12 text-center text-zinc-200">Technical Expertise</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {skills.map(category => (
+                            <div class="p-8 border border-neutral-800 rounded-xl backdrop-blur-sm">
+                                <h3 class="text-xl font-semibold mb-6 text-green-500">{category.category}</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    {category.items.map(item => (
+                                        <span class="px-4 py-2 bg-neutral-900/50 border border-neutral-800 rounded-full">
+                                            {item}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <!-- Experience Timeline -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-12 text-center text-zinc-200">Professional Journey</h2>
+                    <Timeline items={experience} />
+                </section>
+
+                <!-- Education -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-12 text-center text-zinc-200">Education</h2>
+                    <div class="space-y-8">
+                        {education.map(edu => (
+                            <div class="p-8 border border-neutral-800 rounded-xl backdrop-blur-sm">
+                                <h3 class="text-2xl font-semibold mb-2 text-zinc-300">{edu.degree}</h3>
+                                <p class="text-xl text-green-500 mb-1">{edu.school}</p>
+                                <p class="text-neutral-400">{edu.date} • {edu.location}</p>
+                                {edu.grade && (
+                                    <p class="mt-4 text-neutral-300">Final Grade: <span class="text-green-500">{edu.grade}</span></p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <!-- Languages -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-12 text-center text-zinc-200">Languages</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {languages.map(lang => (
+                            <div class="p-6 border border-neutral-800 rounded-xl text-center backdrop-blur-sm">
+                                <h3 class="text-xl font-semibold mb-2 text-zinc-300">{lang.name}</h3>
+                                <p class="text-green-500">{lang.level}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <!-- Hobbies & Interests -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-12 text-center text-zinc-300">Hobbies & Interests</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {hobbies.map(hobby => (
+                            <div class="p-6 border border-neutral-800 rounded-xl text-center backdrop-blur-sm">
+                                <span class="text-4xl mb-4 block">{hobby.icon}</span>
+                                <h3 class="text-xl font-semibold mb-2 text-green-500">{hobby.title}</h3>
+                                <p class="text-neutral-400">{hobby.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <Footer />
+    </body>
+</html>
