@@ -1,0 +1,185 @@
+---
+title: "Exploring Systems of Linear Equations: General Solution, Pivot, and Free Variables"
+pubDate: "2025-01-03"
+description: "Solving systems of linear equations is a fundamental skill in mathematics. In this blog post, we explore the process of solving these systems using matrix operations, Gaussian elimination, and identifying free variables."
+tags: ["math"]
+---
+
+## Introduction
+
+Understanding and solving systems of linear equations is a fundamental skill in mathematics, particularly in linear algebra. In this blog post, we will delve into the process of solving these systems using matrix operations, Gaussian elimination, and identifying free variables. We'll illustrate these concepts through an example we worked on together.
+
+## Problem Statement
+
+We began with a system of linear equations presented in matrix form:
+
+
+
+\[
+\begin{aligned}
+-2x_1 + 4x_2 - 2x_3 - x_4 + 4x_5 &= -3 \\
+4x_1 - 8x_2 + 3x_3 - 3x_4 + x_5 &= 2 \\
+x_1 - 2x_2 + x_3 - x_4 + x_5 &= 0 \\
+x_1 - 2x_2 - 3x_4 + 4x_5 &= a
+\end{aligned}
+\]
+
+
+
+## Transforming the System
+
+To solve the system, we applied row operations to transform it into row-echelon form, making it easier to identify the relationships between the variables:
+
+### Reduced System
+
+
+
+\[
+\begin{aligned}
+x_1 - 2x_2 + x_3 - x_4 + x_5 &= 0 \\
+x_3 - x_4 + 3x_5 &= -2 \\
+x_4 - 2x_5 &= 1 \\
+0 &= a + 1
+\end{aligned}
+\]
+
+
+
+## Solving the System
+
+1. **Parameter Constraint**: The last equation \(0 = a + 1\) tells us that \(a\) must be \(-1\) for the system to be consistent.
+2. **Back Substitution**: Starting from the bottom and working upwards, we found:
+   - From \(x_4 - 2x_5 = 1\): If we choose \(x_5 = 0\) (a common simplifying choice), then \(x_4 = 1\).
+   - Substituting \(x_4 = 1\) and \(x_5 = 0\) into \(x_3 - x_4 + 3x_5 = -2\): We get \(x_3 = -1\).
+   - Finally, substituting \(x_3 = -1\), \(x_4 = 1\), and \(x_5 = 0\) into \(x_1 - 2x_2 + x_3 - x_4 + x_5 = 0\): We get \(x_1 = 2 + 2x_2 + 2x_5\).
+
+### Particular Solution
+
+By setting \(x_2 = 0\) (another simplifying choice), we derived the particular solution:
+
+
+
+\[
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+x_4 \\
+x_5
+\end{bmatrix} =
+\begin{bmatrix}
+2 \\
+0 \\
+-1 \\
+1 \\
+0
+\end{bmatrix}
+\]
+
+
+
+### Contribution from Free Variables
+
+To understand how the free variables contribute to the general solution, we express the leading variables in terms of the free variables:
+
+- \( x_2 \) is a free variable.
+- \( x_5 \) is a free variable.
+
+1. **Contribution from \( x_2 \)**:
+   When \( x_2 \) is non-zero, it affects \( x_1 \):
+   
+
+\[
+   x_1 = 2 + 2x_2 + 2x_5
+   \]
+
+
+   Other variables \( (x_3, x_4, x_5) \) remain unchanged by \( x_2 \):
+   
+
+\[
+   \mathbf{x}_{x_2} = x_2 \begin{bmatrix}
+   2 \\
+   1 \\
+   0 \\
+   0 \\
+   0
+   \end{bmatrix}
+   \]
+
+
+
+2. **Contribution from \( x_5 \)**:
+   When \( x_5 \) is non-zero, it affects \( x_1 \), \( x_3 \), and \( x_4 \):
+   
+
+\[
+   x_1 = 2 + 2x_2 + 2x_5
+   \]
+
+
+   
+
+\[
+   x_3 = -1 - x_5
+   \]
+
+
+   
+
+\[
+   x_4 = 1 + 2x_5
+   \]
+
+
+   This means we can form a vector to represent \( x_5 \)'s contribution:
+   
+
+\[
+   \mathbf{x}_{x_5} = x_5 \begin{bmatrix}
+   2 \\
+   0 \\
+   -1 \\
+   2 \\
+   1
+   \end{bmatrix}
+   \]
+
+
+
+### General Solution
+
+Combining the particular solution and the contributions from the free variables, the general solution is:
+
+
+
+\[
+\mathbf{x} = \begin{bmatrix}
+2 \\
+0 \\
+-1 \\
+1 \\
+0
+\end{bmatrix} + x_2 \begin{bmatrix}
+2 \\
+1 \\
+0 \\
+0 \\
+0
+\end{bmatrix} + x_5 \begin{bmatrix}
+2 \\
+0 \\
+-1 \\
+2 \\
+1
+\end{bmatrix}
+\]
+
+
+
+### Conclusion
+
+Solving systems of linear equations is a powerful tool in mathematics. By understanding matrix operations and identifying free variables, we can unlock multiple solutions and gain deeper insights into various problems. Whether dealing with theoretical mathematics or practical applications, mastering these techniques is invaluable.
+___
+References:
+"Mathematics for Machine Learning" by Marc Peter Deisenroth, A Aldo Faisal, and Cheng Soon Ong
