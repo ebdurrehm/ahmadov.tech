@@ -5,6 +5,7 @@ description: "Solving systems of linear equations is a fundamental skill in math
 tags: ["math"]
 heroImage: "https://media.istockphoto.com/id/1140819116/photo/math-and-geometry-concept.jpg?s=1024x1024&w=is&k=20&c=oTwY8QYAf2cdij31qh3T2CjGp8yjy-nmZOFGb1T9AQk="
 ---
+import Latex from '../../components/Latex.astro';
 
 ## Introduction
 
@@ -76,7 +77,7 @@ By setting \(x_2 = 0\) (another simplifying choice), we derived the particular s
 
 
 
-\[
+<Latex formula="\[
 \begin{pmatrix}
 x_1 \\
 x_2 \\
@@ -91,7 +92,7 @@ x_5
 1 \\
 0
 \end{pmatrix}
-\]
+\]" block={true} />
 
 
 
@@ -114,7 +115,7 @@ To understand how the free variables contribute to the general solution, we expr
    Other variables \( (x_3, x_4, x_5) \) remain unchanged by \( x_2 \):
    
 
-\[
+<Latex formula="\[
    \mathbf{x}_{x_2} = x_2 \begin{pmatrix}
    2 \\
    1 \\
@@ -122,7 +123,7 @@ To understand how the free variables contribute to the general solution, we expr
    0 \\
    0
    \end{pmatrix}
-   \]
+   \]" block={true} />
 
 
 
@@ -152,7 +153,7 @@ To understand how the free variables contribute to the general solution, we expr
    This means we can form a vector to represent \( x_5 \)'s contribution:
    
 
-\[
+<Latex formula=" \[
    \mathbf{x}_{x_5} = x_5 \begin{pmatrix}
    2 \\
    0 \\
@@ -160,7 +161,7 @@ To understand how the free variables contribute to the general solution, we expr
    2 \\
    1
    \end{pmatrix}
-   \]
+   \]" block={true} />
 
 
 
@@ -168,7 +169,7 @@ To understand how the free variables contribute to the general solution, we expr
 
 Combining the particular solution and the contributions from the free variables, the general solution is:
 
-$$
+<Latex formula="\[
 \mathbf{x} = \begin{pmatrix}
 2 \\
 0 \\
@@ -187,8 +188,7 @@ $$
 -1 \\
 2 \\
 1
-\end{pmatrix}
-$$
+\end{pmatrix}" block={true} />
 
 ### Conclusion
 

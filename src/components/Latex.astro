@@ -1,0 +1,35 @@
+---
+interface Props {
+    formula: string;
+    block?: boolean;
+}
+
+const { formula, block = false } = Astro.props;
+---
+
+{block ? (
+    <div class="my-4">
+        <span class="katex-display"><span class="katex">
+            {formula}
+        </span></span>
+    </div>
+) : (
+    <span class="katex"><span class="katex-mathml">
+        {formula}
+    </span></span>
+)}
+
+<script>
+    import katex from 'katex';
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.katex').forEach((element) => {
+            const formula = element.textContent;
+            if (formula) {
+                katex.render(formula, element as HTMLElement, {
+                throwOnError: false,
+                });
+            }
+                });
+            });
+    </script>
+</script>
