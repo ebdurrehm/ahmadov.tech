@@ -10,9 +10,9 @@ const projects = [
     {
         title: "Automated Fake Review Detection Using Semantic Search and NLP Models",
         description: "Data preprocessing and visualization using Python",
-        image: "/projects/project2.jpg",
-        github: "https://github.com/",
-        demo: "https://github.com/TimkoTomas/DeepNnAssign2",
+        image: "/projectsImages/nlp.jpg",
+        github: "https://github.com/TimkoTomas/DeepNnAssign2",
+        demo: "",
         tags: ["NLP", "Preprocessing", "AI", "Python"]
     }
 ];

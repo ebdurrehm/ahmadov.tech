@@ -1,0 +1,25 @@
+export const techIcons = {
+    "Node.js": "devicon-nodejs-plain-wordmark colored",
+    "React": "devicon-react-original colored",
+    "TypeScript": "devicon-typescript-plain colored",
+    "MongoDB": "devicon-mongodb-plain colored",
+    "PostgreSQL": "devicon-postgresql-plain colored",
+    "Express": "devicon-express-original colored",
+    "Python": "devicon-python-plain colored",
+    "Docker": "devicon-docker-plain colored",
+    "AWS": "devicon-amazonwebservices-original colored",
+    "Redis": "devicon-redis-plain colored",
+    "Java": "devicon-java-plain colored",
+    "MySQL": "devicon-mysql-plain colored",
+    "Kubernetes": "devicon-kubernetes-plain colored",
+    "CI/CD": "devicon-jenkins-line colored",
+    "NLP": "devicon-python-plain colored",
+    "Preprocessing": "devicon-python-plain colored",
+    "AI": "devicon-python-plain colored",
+    "RESTful APIs": "devicon-express-original colored",
+    "AZURE":"devicon-azure-plain colored",
+    "JWT":"devicon-jwt-plain colored",
+    "AZURE SQL databse":"devicon-azuresqldatabase-plain colored",
+    "AZURE app service":"devicon-azure-plain colored"
+
+};
