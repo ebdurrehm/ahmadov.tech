@@ -20,7 +20,7 @@ const projects = [
 const skills = [
     {
         category: "Backend",
-        technologies: ["Node.js", "Python", "Java", "RESTful APIs"]
+        technologies: ["Node.js", "Python", "RESTful APIs"]
     },
     {
         category: "Database",

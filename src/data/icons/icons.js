@@ -20,6 +20,7 @@ export const techIcons = {
     "AZURE":"devicon-azure-plain colored",
     "JWT":"devicon-jwt-plain colored",
     "AZURE SQL databse":"devicon-azuresqldatabase-plain colored",
-    "AZURE app service":"devicon-azure-plain colored"
+    "AZURE app service":"devicon-azure-plain colored",
+    "AWS":"devicon-amazonwebservices-plain-wordmark colored",
 
 };
