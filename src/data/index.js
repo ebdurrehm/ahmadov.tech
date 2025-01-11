@@ -1,19 +1,19 @@
 const projects = [
     {
-        title: "Project One",
+        title: "Library Management System for a University",
         description: "A robust backend API built with Node.js and Express",
         image: "/projects/project1.jpg",
-        github: "https://github.com/",
-        demo: "https://demo.project1.com",
-        tags: ["Node.js", "Express", "MongoDB"]
+        github: "https://github.com/marosmatej/apis",
+        demo: "",
+        tags: ["Node.js", "Express", "AZURE SQL databse", "JWT", "AZURE app service"]
     },
     {
-        title: "Project Two",
-        description: "Database optimization and scaling solution",
+        title: "Automated Fake Review Detection Using Semantic Search and NLP Models",
+        description: "Data preprocessing and visualization using Python",
         image: "/projects/project2.jpg",
         github: "https://github.com/",
-        demo: "https://demo.project2.com",
-        tags: ["PostgreSQL", "Redis", "Docker"]
+        demo: "https://github.com/TimkoTomas/DeepNnAssign2",
+        tags: ["NLP", "Preprocessing", "AI", "Python"]
     }
 ];
 
