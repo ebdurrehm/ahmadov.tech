@@ -2,15 +2,15 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
 
 interface Props {
 	title: string;
+	pageTitle?: string;
 	description: string;
 	image?: string;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, pageTitle } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -47,9 +47,9 @@ onload="renderMathInElement(document.body);"
 ></script>
 
 <!-- Primary Meta Tags -->
-<title>{title} | {SITE_TITLE}</title>
+<title>{title} | {pageTitle}</title>
 <meta name="title" content={title} />
-<meta name="description" content="Software Engineer specializing in backend development, AI, and machine learning. Building robust backend solutions and exploring cutting-edge technologies." />
+<meta name="description" content={description?description:"Software Engineer specializing in backend development, AI, and machine learning. Building robust backend solutions and exploring cutting-edge technologies."} />
 <meta name="keywords" content="Software Engineer, Backend Development, Node.js, AI, Machine Learning, Web Development, Košice, Slovakia,Abdulrahim Ahmadov, Abdul, Ahmadov, Azerbaijan, Baku, CNN, RNN" />
 <meta name="author" content="Abdulrahim Ahmadov" />
 <meta name="robots" content="index, follow" />
