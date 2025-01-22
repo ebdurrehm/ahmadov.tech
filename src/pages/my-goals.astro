@@ -1,0 +1,40 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import YearSection from '../components/YearSection.astro';
+import { goals } from '../data/goals';
+
+const sortedYears = Object.keys(goals).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title="Yearly Goals | Abdulrahim Ahmadov" description="My journey and goals through the years" />
+    </head>
+    <Header />
+    <div class="bg-[#0a0a0a] my-4 text-white ">
+        
+        <main class="container mx-auto px-4 py-32">
+            <div class="max-w-4xl mx-auto text-center mb-16">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500">
+                        Journey Through The Years
+                    </span>
+                </h1>
+                <p class="text-xl text-gray-300">Tracking progress, celebrating achievements, and setting new horizons</p>
+            </div>
+
+            {sortedYears.map(year => (
+                <YearSection 
+                    year={year}
+                    goals={goals[year].goals}
+                    quote={goals[year].quote}
+                />
+            ))}
+        </main>
+
+        <Footer />
+    </div>
+</html>
