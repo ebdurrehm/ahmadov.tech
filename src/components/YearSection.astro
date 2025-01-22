@@ -1,0 +1,117 @@
+---
+import type { Goal, GoalCategory } from '../data/goals';
+
+interface Props {
+    year: string;
+    goals: Goal[];
+    quote: {
+        text: string;
+        author: string;
+    };
+}
+
+const { year, goals, quote } = Astro.props;
+
+const categories: GoalCategory[] = ['Professional', 'Health', 'Travel', 'Education', 'Personal'];
+
+const categoryIcons = {
+    Professional: '💼',
+    Health: '🏃‍♂️',
+    Travel: '✈️',
+    Education: '📚',
+    Personal: '🎯'
+};
+
+const categoryColors = {
+    Professional: 'from-purple-300 to-red-500',
+    Health: 'from-blue-500 to-purple-500',
+    Travel: 'from-yellow-500 to-red-500',
+    Education: 'from-blue-500 to-purple-500',
+    Personal: 'from-blue-500 to-purple-500'
+};
+---
+
+<section class="max-w-4xl mx-auto mb-16">
+    <h2 class="text-3xl font-bold mb-8">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500">
+            {year} Goals
+        </span>
+    </h2>
+    
+    <div class="relative group my-16">
+        <!-- Background Glow -->
+        <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-cyan-500 opacity-20 blur-2xl group-hover:opacity-30 transition-opacity"></div>
+        
+        <!-- Quote Container -->
+        <div class="relative">
+            <div class="absolute -left-8 -top-8 w-16 h-16">
+                <div class="w-full h-full bg-gradient-to-r from-green-500 to-cyan-500 rounded-tl-xl"></div>
+            </div>
+            <div class="absolute -right-8 -bottom-8 w-16 h-16">
+                <div class="w-full h-full bg-gradient-to-r from-cyan-500 to-green-500 rounded-br-xl"></div>
+            </div>
+            
+            <blockquote class="relative p-8 bg-slate-900/90 backdrop-blur-sm border-2 border-green-500/20 quote-shape">
+                <div class="absolute -left-4 top-0 text-7xl text-green-500/20 font-serif">"</div>
+                <p class="relative text-xl italic text-gray-300 mb-4 pl-6">{quote.text}</p>
+                <cite class="text-green-500 block text-right pr-6">— {quote.author}</cite>
+                <div class="absolute -right-4 bottom-0 text-7xl text-green-500/20 font-serif rotate-180">"</div>
+            </blockquote>
+        </div>
+    </div>
+
+    <style>
+        .quote-shape {
+            clip-path: polygon(
+                0 0,
+                100% 0,
+                100% calc(100% - 2rem),
+                calc(100% - 2rem) 100%,
+                0 100%
+            );
+        }
+    </style>
+    
+    {categories.map(category => {
+        const categoryGoals = goals.filter(goal => goal.category === category);
+        if (categoryGoals.length === 0) return null;
+        
+        return (
+            <div class="mb-12 last:mb-0">
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <span>{categoryIcons[category]}</span>
+                    <span class={`bg-clip-text text-transparent bg-gradient-to-r ${categoryColors[category]}`}>
+                        {category}
+                    </span>
+                </h3>
+                
+                <div class="space-y-6">
+                    {categoryGoals.map(goal => (
+                        <div class="p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-gray-800">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-xl font-bold text-white">{goal.title}</h4>
+                                <span class={`px-3 py-1 rounded-full text-sm ${
+                                    goal.status === 'completed' 
+                                        ? 'bg-green-500/20 text-green-500'
+                                        : 'bg-yellow-500/20 text-yellow-500'
+                                }`}>
+                                    {goal.status === 'completed' ? 'Completed' : 'In Progress'}
+                                </span>
+                            </div>
+                            <p class="text-gray-300 mb-4">{goal.description}</p>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-1 h-2 bg-gray-800 rounded-full">
+                                    <div 
+                                        class={`h-full rounded-full bg-gradient-to-r ${categoryColors[goal.category]}`}
+                                        style={`width: ${goal.progress}%`}
+                                    ></div>
+                                </div>
+                                <span class="text-sm text-gray-400">{goal.progress}%</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    })}
+</section>
