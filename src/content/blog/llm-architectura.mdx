@@ -1,0 +1,128 @@
+---
+title: "How Do Large Language Models Work? A Beginner’s Guide to Their Architecture and Key Concepts"
+pubDate: "2025-01-24"
+description: "Learn about the architecture of Large Language Models (LLMs), including context windows, contextual awareness, and conditional probability."
+tags: ["AI", "LLMs"]
+heroImage: "/posts/llm.png"
+
+---
+
+Have you ever wondered how tools like ChatGPT or Google’s Gemini can write essays, answer questions, or even generate code? The secret lies in their **architecture**—the way they’re built and how they process information. In this blog post, we’ll break down the key components of **Large Language Models (LLMs)** in simple terms, focusing on their **architecture**, **context windows**, **contextual awareness**, and **conditional probability**.
+
+---
+
+## **What Is the Architecture of an LLM?**
+
+At the heart of every LLM is a technology called the **Transformer**. Think of it as the brain of the model. Here’s how it works:
+
+### **1. Tokens: The Building Blocks**
+- LLMs don’t process words directly. Instead, they break text into smaller pieces called **tokens**. A token can be a word, part of a word, or even a punctuation mark. For example, the sentence “I love AI!” might be split into tokens like 
+```python
+["I", "love", "AI", "!"]
+
+```
+
+### **2. Embeddings: Turning Words into Numbers**
+- Tokens are converted into **embeddings**, which are numerical representations (think of them as a list of numbers). These embeddings capture the meaning of the token. For example, the word “king” might be represented as 
+```python
+[0.25, -0.76, 0.89, ...]
+
+```
+
+### **3. Transformer Layers: The Magic Happens Here**
+- The Transformer is made up of multiple layers, each containing two key components:
+  - **Self-Attention Mechanism**: This allows the model to focus on the most important parts of the input. For example, in the sentence “The cat sat on the mat,” the model learns that “cat” and “mat” are closely related.
+  - **Feed-Forward Network**: This processes the information further to refine the model’s understanding.
+
+### **4. Output: Generating Text**
+- After passing through all the layers, the model predicts the next token in the sequence. For example, if the input is “The cat sat on the,” the model might predict “mat” as the next token.
+
+---
+
+## **What Is a Context Window?**
+
+Imagine you’re reading a book, but you can only see one paragraph at a time. The **context window** in an LLM is like that—it’s the amount of text the model can “see” at once.
+
+### **Why Does It Matter?**
+- A larger context window means the model can consider more information when generating text. For example:
+  - A model with a **2,000-token context window** can process about 1,500 words at once.
+  - A model with a **200,000-token context window** can process an entire book!
+
+### **Real-World Example**
+- If you ask a model with a small context window to summarize a long article, it might miss important details because it can’t “remember” the whole text. A model with a larger context window can handle this task much better.
+
+---
+
+## **What Is Contextual Awareness?**
+
+Contextual awareness is what makes LLMs so smart. It’s their ability to understand the meaning of a word or phrase based on the surrounding text.
+
+### **How Does It Work?**
+- The **self-attention mechanism** in the Transformer allows the model to analyze how each token relates to the others. For example:
+  - In the sentence “She went to the bank to withdraw money,” the model understands that “bank” refers to a financial institution.
+  - In the sentence “The river bank was flooded,” the model understands that “bank” refers to the side of a river.
+
+### **Why Is It Important?**
+- Contextual awareness allows LLMs to generate coherent and relevant responses. Without it, the model might misinterpret words or produce nonsensical answers.
+
+---
+
+## **What Is Conditional Probability?**
+
+Conditional probability is the math behind how LLMs predict the next word in a sentence. It’s the probability of something happening given that something else has already happened.
+
+### **How Does It Work in LLMs?**
+- When you type a sentence, the model calculates the probability of the next word based on the words that came before it. For example:
+  - If the input is “The cat sat on the,” the model might calculate:
+   ```python
+    -P(mat | The cat sat on the) = 0.8
+    - P(chair | The cat sat on the) = 0.1
+    - P(roof | The cat sat on the) = 0.05
+    ```
+  - The model then chooses the word with the highest probability, which in this case is “mat.”
+
+### **Why Is It Important?**
+- Conditional probability is what allows LLMs to generate text that makes sense. It’s the reason why the model can complete your sentences or answer your questions in a way that feels natural.
+
+---
+
+## **Putting It All Together**
+
+Let’s see how these concepts work together in an example:
+
+1. **Input**: “The cat sat on the”
+2. **Tokenization**: The sentence is split into tokens: 
+```python
+["The", "cat", "sat", "on", "the"]
+
+```
+
+3. **Embeddings**: Each token is converted into a numerical representation.
+4. **Context Window**: The model processes the tokens within its context window (e.g., 2,000 tokens).
+5. **Contextual Awareness**: The model uses self-attention to understand that “cat” and “sat” are related.
+6. **Conditional Probability**: The model calculates the probability of the next token and predicts “mat.”
+7. **Output**: The model generates the sentence: “The cat sat on the mat.”
+
+---
+
+## **Why Does This Matter?**
+
+Understanding these concepts helps us appreciate how LLMs work and why they’re so powerful. Here’s why they matter:
+- **Better Communication**: LLMs can understand and generate human-like text, making them useful for chatbots, virtual assistants, and more.
+- **Improved Context Handling**: With larger context windows and better contextual awareness, LLMs can handle complex tasks like summarizing long documents or writing detailed reports.
+- **Natural Text Generation**: Conditional probability ensures that the text generated by LLMs is coherent and relevant.
+
+---
+
+## **The Future of LLMs**
+
+As LLMs continue to evolve, we can expect even more impressive capabilities:
+- **Larger Context Windows**: Models will be able to process even longer texts, making them better at handling complex tasks.
+- **Improved Contextual Awareness**: LLMs will become even better at understanding nuances and subtleties in language.
+- **Faster and More Efficient**: Advances in architecture will make LLMs faster and more energy-efficient.
+
+---
+
+## **Conclusion**
+
+The architecture of LLMs, combined with concepts like **context windows**, **contextual awareness**, and **conditional probability**, is what makes these models so powerful. By breaking down how they work, we can better understand their potential and limitations. Whether you’re using a chatbot, writing with AI assistance, or exploring new technologies, these concepts are at the core of how LLMs are transforming the way we interact with machines.
