@@ -4,7 +4,7 @@ import { defineCollection, z } from 'astro:content';
 const authorInfo = {
     name: "Abdulrahim Ahmadov",
     avatar: "/images/author.jpg",
-    role: "Backend Developer",
+    role: "Software Engineer",
     bio: "Building robust backend solutions and scalable architectures",
     social: {
         github: "https://github.com/ebdurrehm",
