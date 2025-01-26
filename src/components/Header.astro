@@ -70,9 +70,9 @@ const isHome = currentPath === '/' || currentPath === '';
                     <nav class="flex flex-col items-center gap-4 py-4 backdrop-blur-3xl">
                         <a href="/" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Home</a>
                         <a href="/blog" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Blog</a>
-                        <a href="/projects" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Projects</a>
+                        <a href={isHome?'#projects':'\projects'} class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Projects</a>
                         <a href="/my-goals" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Goals</a>
-                        <a href="/contact" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Contact</a>
+                        <a href={isHome?'#contact':'/contact'} class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">Contact</a>
                         <a href="/about" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">About</a>
                     </nav>
                 </div>
