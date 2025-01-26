@@ -2,7 +2,7 @@ const projects = [
     {
         title: "Library Management System for a University",
         description: "A robust backend API built with Node.js and Express",
-        image: "/projects/project1.jpg",
+        image: "/projectsImages/lib.png",
         github: "https://github.com/marosmatej/apis",
         demo: "",
         tags: ["Node.js", "Express", "AZURE SQL databse", "JWT", "AZURE app service"]
