@@ -1,0 +1,59 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactComp from '../components/ContactComp.astro';
+
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title="Contact | Abdulrahim Ahmadov" description="Get in touch with me" />
+    </head>
+    <body class="bg-[#0a0a0a] text-white">
+        <Header />
+        
+        <main class="container mx-auto px-4 py-32">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl font-bold mb-8">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-cyan-500">
+                        Get in Touch
+                    </span>
+                </h1>
+                
+                <div class="bg-slate-900/50 backdrop-blur-sm rounded-xl p-8 mt-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-4">Contact Information</h2>
+                            <ul class="space-y-4 text-gray-300">
+                                <li class="flex items-center gap-3">
+                                    <span>📧</span>
+                                    <a href="mailto:abdurrahim.ahmadow@gmail.com" class="hover:text-green-500 transition-colors">
+                                        abdurrahim.ahmadow@gmail.com
+                                    </a>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span>📍</span>
+                                    <span>Košice, Slovakia</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold mb-4">Social Links</h2>
+                            <ul class="space-y-4 text-gray-300">
+                                <li>
+                                    <a href="https://linkedin.com/in/abdurrahim-ahmadov" class="flex items-center gap-3 hover:text-green-500 transition-colors">
+                                        <span>LinkedIn</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <ContactComp class="my-40" />
+        <Footer />
+    </body>
+</html>
