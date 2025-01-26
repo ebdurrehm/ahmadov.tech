@@ -1,0 +1,24 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProjectComp from '../components/ProjectComp.astro';
+
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title="Projects | Abdulrahim Ahmadov" description="Featured projects and work" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    </head>
+    
+    <body class="bg-[#0a0a0a] text-white">
+        <Header />
+        
+        <ProjectComp />
+
+        <Footer />
+    </body>
+</html>
