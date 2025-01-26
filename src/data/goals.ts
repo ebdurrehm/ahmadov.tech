@@ -23,16 +23,18 @@ export const goals: YearlyGoals = {
     "2025": {
         goals: [
             {
-                title: "Learn deep learning",
-                description: "Deep dive into neural networks and machine learning",
-                status: "in-progress",
-                category: "Professional",
-                deadline: "2025-12-31",
-                progress: 5
-            },
+                "title": "Pioneer advanced applications in Artificial Intelligence",
+                "description": "I am passionate about pushing the boundaries of Artificial Intelligence by delving into complex areas like deep learning, reinforcement learning, natural language processing, and AI ethics. My focus is on applying advanced AI methods to solve innovative, real-world problems and drive transformative change in industries such as healthcare, finance, and automation. I am committed to mastering these technologies and using them to create impactful solutions.",
+                "status": "in-progress",
+                "category": "Professional",
+                "deadline": "2025-12-31",
+                "progress": 5
+            }
+            
+            ,
             {
-                title: "Learn C/C++",
-                description: "I want to know low-level programming, how to work with memory, and how to write fast code",
+                title: "Write more low-level apps with C/C++",
+                description: "I want to know low-level programming, how to work efficently with memory, and how to make super fast apps",
                 status: "in-progress",
                 category: "Professional",
                 deadline: "2025-06-30",
@@ -71,7 +73,7 @@ export const goals: YearlyGoals = {
                 progress: 0
             },
             {
-                title: "Complete this academic year in a foreign university without any fails",
+                title: "Complete this academic year in a foreign university successfully",
                 description: "I am studying in a foreign university and I want to complete this year without any fails, I completed my prevoius degree with a honor degree, currentl I am more focused on career more than student life, so I need to balance both",
                 status: "in-progress",
                 category: "Education",
@@ -79,13 +81,14 @@ export const goals: YearlyGoals = {
                 progress: 40
             },
             {
-                title: "Build strong foundations in computer science",
-                description: "A true engineer should have strong foundations in computer science and should be able to understand the underlying principles. I want to learn deeply DSA, algorithms, computer architecture, operating systems, networks, databases, etc.",
-                status: "in-progress",
-                category: "Personal",
-                deadline: "2025-12-31",
-                progress: 0
+                "title": "Master the fundamentals of computer science",
+                "description": "I am dedicated to mastering the core principles of computer science, including DSA, algorithms, computer architecture, operating systems, networks, and databases. With a strong foundation already in place, I continue to deepen my expertise to solve complex problems and make valuable contributions to the tech industry.",
+                "status": "in-progress",
+                "category": "Personal",
+                "deadline": "2025-12-31",
+                "progress": 50
             }
+            
         ],
         quote: {
             text: "The future belongs to those who believe in the beauty of their dreams.",
