@@ -1,7 +1,8 @@
 ---
 // Frontmatter for Astro component
 // Define props or import utilities as needed
-import { SITE_TITLE } from '../consts';
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === '/' || currentPath === '';
 ---
 
 <header class="fixed w-full top-0 z-50 backdrop-blur-md bg-black/80 border-b border-neutral-800">
@@ -35,7 +36,7 @@ import { SITE_TITLE } from '../consts';
                     </a>
                 </li>
                 <li>
-                    <a href="#projects" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
+                    <a href={isHome?'#projects':'/projects'} class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
                         Projects
                     </a>
                 </li>
@@ -44,7 +45,7 @@ import { SITE_TITLE } from '../consts';
                         Goals
                     </a>
                 <li>
-                    <a href="#contact" class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
+                    <a href={isHome?'#contact':'/contact'} class="text-lg font-medium text-white hover:text-[#ff6f61] transition-colors">
                         Contact
                     </a>
                 </li>
