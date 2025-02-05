@@ -10,6 +10,7 @@ import ContactComp from '../components/ContactComp.astro';
 <html lang="en">
     <head>
         <BaseHead title="Contact | Abdulrahim Ahmadov" description="Get in touch with me" />
+        <style> .libutton { display: flex; flex-direction: column; justify-content: center; padding: 7px; text-align: center; outline: none; text-decoration: none !important; color: #ffffff !important; width: 200px; height: 32px; border-radius: 16px; background-color: #0A66C2; font-family: "SF Pro Text", Helvetica, sans-serif; } </style>
     </head>
     <body class="bg-[#0a0a0a] text-white">
         <Header />
@@ -42,11 +43,10 @@ import ContactComp from '../components/ContactComp.astro';
                         <div>
                             <h2 class="text-2xl font-bold mb-4">Social Links</h2>
                             <ul class="space-y-4 text-gray-300">
-                                <li>
-                                    <a href="https://linkedin.com/in/abdurrahim-ahmadov" class="flex items-center gap-3 hover:text-green-500 transition-colors">
-                                        <span>LinkedIn</span>
-                                    </a>
-                                </li>
+                               <li><a class="libutton" 
+                                href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=abdurrahim-ahmadov" 
+                                target="_blank">Follow on LinkedIn</a>
+                               </li>
                             </ul>
                         </div>
                     </div>
