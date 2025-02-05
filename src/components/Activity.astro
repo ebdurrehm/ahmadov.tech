@@ -1,0 +1,37 @@
+---
+import type { Activity } from '../data/activities';
+
+interface Props {
+    activity: Activity;
+}
+
+const { activity } = Astro.props;
+---
+
+<div class="relative group activity-card">
+    <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-cyan-500 rounded-xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity"></div>
+    <div class="relative p-6 bg-slate-900/90 backdrop-blur-sm rounded-xl border border-gray-800">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                {activity.logo && (
+                    <img src={activity.logo} alt={activity.company} class="w-20 h-20 rounded-full object-cover" />
+                )}
+                <div>
+                    <h3 class="text-xl font-bold text-white"><a href={activity.link} target="_blank">{activity.name} </a></h3>
+                    {activity.company && (
+                        <p class="text-sm text-gray-400">{activity.company}</p>
+                    )}
+                </div>
+            </div>
+            <span class="px-3 py-1 rounded-full text-sm text-green-500 bg-green-500/10">{activity.year}</span>
+        </div>
+        <p class="text-gray-300">{activity.description}</p>
+        <span class="absolute top-2 right-2 px-2 py-1 text-xs font-bold rounded-md bg-purple-500/10 text-purple-400">{activity.category}</span>
+    </div>
+</div>
+
+<style>
+    .activity-card {
+        @apply transition-transform transform hover:scale-105;
+    }
+</style>
