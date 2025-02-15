@@ -28,7 +28,7 @@ export const goals: YearlyGoals = {
                 "status": "in-progress",
                 "category": "Professional",
                 "deadline": "2025-12-31",
-                "progress": 5
+                "progress": 7
             }
             
             ,
@@ -78,7 +78,7 @@ export const goals: YearlyGoals = {
                 status: "in-progress",
                 category: "Education",
                 deadline: "2025-12-31",
-                progress: 40
+                progress: 50
             },
             {
                 "title": "Master the fundamentals of computer science",
