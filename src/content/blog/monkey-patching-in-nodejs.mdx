@@ -159,7 +159,7 @@ export function log(msg) {
 import { log } from './logger.js';
 
 // Try to reassign the function
-// log = (msg) => console.log('Patched!'); // Error: Assignment to constant variable
+log = (msg) => console.log('Patched!'); // Error: Assignment to constant variable
 ```
 In the above example we can't reassign the `log` function because it is a constant variable. But we can modify the properties of the exported object.
 
