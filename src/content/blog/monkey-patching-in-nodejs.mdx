@@ -1,0 +1,192 @@
+---
+title: "Monkey Patching in Node.js"
+description: "Learn about monkey patching in Node.js, a technique to modify or extend the behavior of existing modules or objects at runtime."
+pubDate: "2025-02-25"
+tags: ["Node.js", "JavaScript"]
+heroImage: "/posts/monkey-patching.png"
+---
+
+### Content of this article includes:
+- Introduction: What is Monkey Patching and why Node.js?
+- Working principle:  How Monkey Patching Works underr the hood
+- Monkey Patching with commonjs modules
+- Monkey Patching with ES modules
+- The downsides of Monkey Patching
+- Conclusion: Should you use Monkey Patching?
+
+## Introduction: What is Monkey Patching and why Node.js?
+Monkey patching in programming refers to the technique which allows us to modify or extend the behavior of the existing modules or objects at runtime.
+This technique is widely used in dynamic languages like JavaScript, Python etc. It allows developers to change modules functionality when for example they don't have direct access to chnage it in original code.
+Basicially, Monkey Patching is a quick way to to solve problems or add extra functionality. Most of the popular libraries and frameworks use this technique to extend their functionality.
+
+## Working principle:  How Monkey Patching Works underr the hood
+Monkey patching works by replacing or extending the methods or properties of an object at runtime. This is done by modifying the object's prototype or directly changing objects.
+When a method is monkey patched, the new method replaces the original method, allowing the new behavior to take effect. This can be useful for adding logging, debugging, or other functionality to existing code without modifying the original source.
+
+Let's see an example of monkey patching in JavaScript:
+
+```javascript
+const MAX_LENGTH = 3;
+
+let originalMethod = Array.prototype.push;
+
+Array.prototype.push = function(...args) {
+    originalMethod.apply(this, args);
+
+    if (this.length > MAX_LENGTH){
+        this.splice(0,this.length-MAX_LENGTH);
+    }
+
+    return this.length;
+}
+
+let arr = [];
+arr.push(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+console.log(arr); 
+
+let arr2 = [1];
+arr2.push(20, 31, 44, 0,11,12,13,14,15,16,17,3,2,1);
+console.log(arr2); 
+```
+Output:
+```
+[ 18, 19, 20 ]
+[ 3, 2, 1 ]
+```
+
+In the above example , we have monkey patched the `push` method of the `Array` prototype to limit the array length to `MAX_LENGTH` by removing the first elements when the array length exceeds the limit.
+In the first sentence we assigned the original push method to a variable `originalMethod` and then we replaced the `push` method with our custom implementation which checks the length of the array and removes the first elements if the length exceeds the limit. Within the custom implementation we call the original method using `originalMethod.apply(this, args)` to ensure that the original functionality is preserved.
+This example can be apply in practice to limit the size of an array , for example in a queue or a buffer. One basic example if we want to keep last 3 requests in a array and show them to the admin we can apply this monkey patching and avoid the array to grow indefinitely.
+
+## Monkey Patching with commonjs modules
+Now let's say we want to change the core node.js api's or third part libraries functionalities. In commonjs modules we can easily monkey patch the modules by requiring the module and then changing the properties or methods of the module.
+Why this happens easily in commonjs modules is because the modules are cached and we can easily change the properties or methods of the module within in this cache. After the change the module will be used with the new properties or methods and when the module is required again it will be used with the new properties or methods thanks to the cache.
+
+```javascript
+// counter.js
+
+let count = 0;
+
+module.exports  = ()=> counter++;
+
+// app.js
+const counter = require('./counter');
+console.log(counter()); // 0
+console.log(counter()); // 1    
+
+console.log(require.cache); // cache of the modules
+
+const counter2 = require('./counter');
+console.log(counter2()); // 2 same instance of counter
+```
+From the above example we can see that commonjs share the same instance of the module when required multiple times, which is the singleton pattern.
+By knowing this now we can do easily monkey patching in commonjs modules. In order to make this article interesting we will do real world case by detecting slow requests inx express.js with monkey patching.
+
+```javascript
+const express = require('express');
+const app = express();
+
+// Counter for unique IDs
+let handlerId = 0;
+
+// Store the original app.use
+const originalUse = app.use;
+
+// Patch app.use to tag and log handlers
+app.use = function (fn) {
+  const id = handlerId++; // Assign unique ID
+  const handlerName = fn.name || 'anonymous';
+
+  const wrappedFn = (req, res, next) => {
+    const startTime = Date.now();
+
+    res.on('finish', () => {
+      const timeTaken = Date.now() - startTime;
+      console.log(`[#${id}] ${req.method} ${req.url} by "${handlerName}" took ${timeTaken}ms`);
+    });
+
+    fn(req, res, next);
+  };
+
+  // Tag the function with its ID for debugging
+  wrappedFn.id = id;
+  return originalUse.call(this, wrappedFn);
+};
+
+// Named middleware
+function addTimestamp(req, res, next) {
+  req.timestamp = Date.now();
+  next();
+}
+
+function middleware1(req, res, next) {
+  console.log('Middleware 1');
+  next();
+}
+
+// Routes and middleware
+app.use(addTimestamp);
+app.use(middleware1);
+app.get('/fast', (req, res) => {
+  setTimeout(() => res.send(`Fast: ${req.timestamp}`), 100);
+});
+app.get('/slow', (req, res) => {
+  setTimeout(() => res.send(`Slow: ${req.timestamp}`), 300);
+});
+
+app.listen(3000, () => console.log('Server on port 3000'));
+```
+Output:
+```
+Middleware 1
+[#0] GET /slow by "addTimestamp" took 326ms
+[#1] GET /slow by "middleware1" took 327ms
+```
+
+Here in the above code we patched the `app.use` method of the express.js to log the time taken by each middleware and route handler. We assigned a unique id to each handler and logged the time taken by each handler to process the request. This can be useful to detect slow requests and optimize the performance of the application. Also imagine we have complex and big application with this unique ids we can easily track middlewares and handlers and debug them.
+
+
+## Monkey Patching with ES modules
+In ES modules monkey patching is not that easy as in commonjs modules. This is because in ES modules both named export `export` and default export `export default` are immutable and read-only. This means that we can't reassign bindings but we can modify the properties of the exported object.
+
+```javascript
+// logger.js
+export function log(msg) {
+  console.log(msg);
+}
+
+// main.js
+import { log } from './logger.js';
+
+// Try to reassign the function
+// log = (msg) => console.log('Patched!'); // Error: Assignment to constant variable
+```
+In the above example we can't reassign the `log` function because it is a constant variable. But we can modify the properties of the exported object.
+
+```javascript
+// But we can patch its behavior
+log.patched = true; // Add a property
+log.oldLog = log;   // Save original
+log.call = function () { // Patch its call method
+  console.log('Patched log!');
+  this.oldLog.apply(null, arguments);
+};
+
+log('Hello'); // Patched log! Hello
+console.log(log.patched); // true
+```
+In the above example we added a property `patched` to the `log` function and saved the original function in `oldLog` property. We also patched the `call` method of the `log` function to log a message before calling the original function. This way we can extend the behavior of the `log` function without reassigning it.
+
+## The downsides of Monkey Patching
+
+Although monkey patching can be useful in some cases, it has some downsides that should be considered before using it:
+- **Unpredictable behavior:** Monkey patching can lead to unpredictable behavior if not done carefully. For example, if third party modules changes their implementation this can broke your code, the code works today can't work tomorrow.
+- **Commonjs global environment**: In commonjs modules the global environment is shared and monkey patching can affect other modules that depend on the same module. For example if we patch the `Array.prototype` it will affect all the modules that use arrays (for example if express uses it it will affect express).
+- **Debugging:** Monkey patching can make debugging difficult because it changes the behavior of the code at runtime. This can make it hard to trace the source of bugs and errors.
+- **Maintenance:** Monkey patching can make the code harder to maintain because it introduces hidden dependencies and side effects. This can make it difficult to understand and modify the code in the future.
+
+## Conclusion: Should you use Monkey Patching?
+Monkey patching can be a useful technique in some cases, but it should be used with caution. It can be a quick and dirty way to solve problems or add extra functionality, but it can also lead to unpredictable behavior and make the code harder to maintain. Before using monkey patching, consider if there are better alternatives such as subclassing, composition, or dependency injection. If you decide to use monkey patching, make sure to document the changes and test the code thoroughly to avoid unexpected side effects.
+For me the best cases are when you want to fix some bugs quickly without waiting change you can use monkey patching or when you do experimenting with the libraries and you want to see how they work you can use monkey patching.
+
+Thank you for reading this article. I hope you learned something new about monkey patching in Node.js. If you have any questions or feedback, feel free to leave a comment below.
