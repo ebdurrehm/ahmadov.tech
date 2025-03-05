@@ -197,50 +197,6 @@ AES encryption in CBC mode is widely used in various applications to secure sens
 
 For example https protocol uses AES encryption in CBC mode to secure communication between clients and servers. When you visit a website using https, your browser and the server establish a secure connection using AES encryption in CBC mode to encrypt and decrypt data exchanged between them. This ensures that your data is protected from eavesdroppers and hackers.
 
-Let's implement a real-world example of AES encryption in CBC mode using Node.js. We will create a simple chat application that encrypts and decrypts messages using AES encryption in CBC mode. We will use the built-in net module in Node.js to create a TCP server and client that communicate with each other over a secure connection.
-
-```javascript
-const crypto = require('crypto');
-const fs = require('fs');
-require('dotenv').config();
-
-const ALGORITHM = 'aes-256-cbc';
-const SECRET_KEY = Buffer.from(process.env.SECRET_KEY, 'hex'); // 32-byte key
-const IV_LENGTH = 16; 
-const IV = crypto.randomBytes(IV_LENGTH);
-
-// Encrypts inputFile using AES-256-CBC encryption
-function encryptFile(inputFile, outputFile, iv) {
-    const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
-
-    const input = fs.createReadStream(inputFile);
-    const output = fs.createWriteStream(outputFile);
-
-    input.pipe(cipher).pipe(output);
-
-    console.log("✅ File encrypted successfully! Share this IV separately:", iv.toString('hex'));
-}
-
-// Decrypts encryptedFile using AES-256-CBC decryption
-function decryptFile(encryptedFile, outputFile, iv) {
-    const decipher = crypto.createDecipheriv(ALGORITHM, SECRET_KEY, iv);
-
-    const input = fs.createReadStream(encryptedFile);
-    const output = fs.createWriteStream(outputFile);
-
-    input.pipe(decipher).pipe(output);
-
-    console.log("🔓 File decrypted successfully!");
-}
-
-//  Example usage
-const iv = crypto.randomBytes(IV_LENGTH);
-encryptFile('input.txt', 'encrypted.dat', IV);
-decryptFile('encrypted.dat', 'decrypted.txt', IV);
-```
-
-What we did we created simple file encryption algorithm wich encrypt file content and write it to another file. We used the same IV and key for encryption and decryption. We can use same method for storing user bank card details or any sensitive data to database.
-
 ### Conclusion
 
 In this article we talked about AES algorithm, CBC mode, and how to encrypt and decrypt data using AES encryption in CBC mode with Node.js. We covered the basics of encryption, symmetric encryption, AES encryption, CBC mode. We also implemented a real-world example of AES encryption in CBC mode using Node.js. I hope you found this article helpful and learned something new about encryption and Node.js. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
