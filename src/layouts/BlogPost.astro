@@ -80,6 +80,48 @@ const { title, description, pubDate, updatedDate, heroImage, author } = Astro.pr
                     <slot />
                 </div>
 
+                <style is:global>
+                    /* Code block improvements */
+                    .prose pre {
+                        max-width: 100vw;
+                        overflow-x: auto;
+                        margin-left: -1rem;
+                        margin-right: -1rem;
+                        padding: 1.5rem 1rem;
+                        border-radius: 0.5rem;
+                        background-color: #1a1a1a !important;
+                        border: 1px solid rgba(255,255,255,0.1);
+                    }
+                    
+                    @media (min-width: 640px) {
+                        .prose pre {
+                            margin-left: 0;
+                            margin-right: 0;
+                            padding: 1.5rem;
+                            border-radius: 0.5rem;
+                        }
+                    }
+                    
+                    /* Adjust code font size for better readability */
+                    .prose pre code {
+                        font-size: 0.875rem;
+                        line-height: 1.7;
+                        padding: 0;
+                        background: transparent;
+                        color: inherit;
+                    }
+                    
+                    /* Inline code styles */
+                    .prose :not(pre) > code {
+                        background: rgba(255,255,255,0.1);
+                        color: #f43f5e;
+                        padding: 0.2em 0.4em;
+                        border-radius: 0.3em;
+                        font-weight: 500;
+                        font-size: 0.875em;
+                    }
+                </style>
+
                 <!-- Comments Section -->
                 <div class="max-w-4xl mx-auto py-16">
                     <div class="h-px bg-neutral-800 mb-16"></div>
