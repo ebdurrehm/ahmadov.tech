@@ -33,7 +33,7 @@ Synmetric encryption is a type of encryption where sender and receiver use the s
 AES (Advanced encryption standart) is a one of the most popular symmetric encryption algorithm used today. It was developed by two belgian cryptographers Joan Daemen and Vincent Rijmen. It is a block cipher algorithm that encrypts data in blocks of 128 bits. It supports key sizes of 128, 192, and 256 bits.
 AES works by taking a block of plain text , a secret random key , an initialization vector (IV) and then encrypting the plain text block to produce a cipher text block. Let's see what is the key and IV in the following section.
 
-The key is a random string of bits that is used to encrypt and decrypt the data. The key is shared between the sender and receiver. The key is used to encrypt the plain text block to produce a cipher text block and to decrypt the cipher text block to produce the plain text block. It must be kept secret and should be shared between the sender and receiver in a secure way.
+The key is a random string of bits that is used to encrypt and decrypt the data. It is shared between the sender and receiver in order to encrypt the plain text block to produce a cipher text block and to decrypt the cipher text block to produce the plain text block. It must be kept secret and should be shared between the sender and receiver in a secure way.
 We can generate a random key using the following code:
 ```javascript
 import crypto from 'crypto';
@@ -199,4 +199,4 @@ For example https protocol uses AES encryption in CBC mode to secure communicati
 
 ### Conclusion
 
-In this article we talked about AES algorithm, CBC mode, and how to encrypt and decrypt data using AES encryption in CBC mode with Node.js. We covered the basics of encryption, symmetric encryption, AES encryption, CBC mode. We also implemented a real-world example of AES encryption in CBC mode using Node.js. I hope you found this article helpful and learned something new about encryption and Node.js. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
+In this article we talked about AES algorithm, CBC mode, and how to encrypt and decrypt data using AES encryption in CBC mode with Node.js. We covered the basics of encryption, symmetric encryption, AES encryption, CBC mode. I hope you found this article helpful and learned something new about encryption and Node.js. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
