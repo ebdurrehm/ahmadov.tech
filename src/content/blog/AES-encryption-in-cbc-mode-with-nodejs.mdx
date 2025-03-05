@@ -1,0 +1,246 @@
+---
+title: AES encryption in CBC mode with Node.js
+description: Learn how to encrypt and decrypt data using AES encryption in CBC mode with Node.js
+pubDate: 2025-03-04
+tags: [nodejs, AES, encryption]
+heroImage: /posts/aes.jpg
+---
+
+## This article will cover the following topics:
+- What is the encryption?
+- What is the symmetric encryption?
+- What is the AES encryption?
+- What is the CBC mode?
+- How to encrypt and decrypt data using AES encryption in CBC mode with Node.js
+- Real world example of AES encryption in CBC mode
+- Conclusion
+
+## What is the encryption?
+
+In simple terms, encryption is the process which we use to change a plaintext to a unreadable format called chipertext in order to protect it from unwanted access.
+Example: 
+```
+Plaintext: 'This is a secret message'
+Chipertext: 'TmV3IGlzIGEgc2VjcmV0IG1lc3NhZ2U='
+```
+For encryption we can use symmetric encryption or asymmetric encryption. We will to day ignore the asymmetric encryption and focus on symmetric encryption.
+With symmetric encryption we can use different cryptographic algorithms like AES, DES, RSA, etc and different modes like ECB, CBC, CTR, etc. We will look at AES encryption in CBC mode.
+
+## What is the symmetric encryption?
+Synmetric encryption is a type of encryption where sender and receiver use the same key for encryption and decryption. The key is shared between the sender and receiver. The symmetric encryption is faster than asymmetric encryption.
+
+### What is the AES encryption?
+AES (Advanced encryption standart) is a one of the most popular symmetric encryption algorithm used today. It was developed by two belgian cryptographers Joan Daemen and Vincent Rijmen. It is a block cipher algorithm that encrypts data in blocks of 128 bits. It supports key sizes of 128, 192, and 256 bits.
+AES works by taking a block of plain text , a secret random key , an initialization vector (IV) and then encrypting the plain text block to produce a cipher text block. Let's see what is the key and IV in the following section.
+
+The key is a random string of bits that is used to encrypt and decrypt the data. The key is shared between the sender and receiver. The key is used to encrypt the plain text block to produce a cipher text block and to decrypt the cipher text block to produce the plain text block. It must be kept secret and should be shared between the sender and receiver in a secure way.
+We can generate a random key using the following code:
+```javascript
+import crypto from 'crypto';
+key = crypto.randomBytes(32).toString('hex');
+```
+We created a random key with 32 bytes and converted it to a hex string because randomBystes() method returns a buffer object and we need to convert it to a string.
+Result looks like this:
+
+```javascript
+'f7b3b1b3c7b3b1b3c7b3b1b3c7b3b1b3'
+```
+The IV is used to ensure that the same plain text block will encrypt to a different cipher text block each time it is encrypted and it prevents attackers from guessing the key. IV is sharing between sender and receiver and it is not generally considered secret. The IV must be unique for each encryption operation. We can generate a random IV using the following code:
+```javascript
+import crypto from 'crypto';
+iv = crypto.randomBytes(16).toString('hex');
+```
+But what it is doing exactly? Let's see with example :
+```javascript
+Without IV:
+Plaintext: 'This is a secret message' ---> Chipertext: 'TmV3IGlzIGEgc2VjcmV0IG1lc3NhZ2U='
+Plaintext: 'This is a secret message' ---> Chipertext: 'TmV3IGlzIGEgc2VjcmV0IG1lc3NhZ2U='
+Plaintext: 'This is a secret message' ---> Chipertext: 'TmV3IGlzIGEgc2VjcmV0IG1lc3NhZ2U='
+```
+
+```javascript
+With IV:
+Plaintext: 'This is a secret message' ---> IV1 --->Chipertext: 'TmV3IGlzIGEgc2VjcmV0IG1lc3NhZ2U='
+Plaintext: 'This is a secret message' ---> IV2---> Chipertext: 'Zhdhh3848LGEhddjk4IGV45xcWEF3d4='
+
+```
+As we can see the same plain text without IV will encrypt to the same cipher text but with IV it will encrypt to a different cipher text each time.
+
+### What is the CBC mode?
+CBC (Chiper block chaning) mode adds additional security layer to encryption by chaining each block of plaintext with previous chipertext block and adding randomness with IV.
+These processes simply looks like this:
+
+```javascript
+Plaintext block 1 ---> XOR with IV ---> AES encryption ---> Chipertext block 1
+Plaintext block 2 ---> XOR with Chipertext block 1 ---> AES encryption ---> Chipertext block 2
+Plaintext block 3 ---> XOR with Chipertext block 2 ---> AES encryption ---> Chipertext block 3
+```
+If you are not coming from computer science then maybe you need to know what is XOR or even refresh your memory. 
+XOR is a bitwise operation that compares two bits and returns 1 if the bits are different and 0 if the bits are same. For example:
+```javascript
+0 XOR 0 = 0
+0 XOR 1 = 1
+1 XOR 0 = 1
+1 XOR 1 = 0
+```
+For our cbc mode example it is like this:
+```javascript
+1010 (Plaintext) XOR 1100 (IV)  = 0110
+0110 (AES encryption) = 1010 (Chipertext)
+``` 
+AES algorithm has different versions 128 bit, 192 bit and 256 bit. We will use 256 bit version for our example. These bits mean how much algoritm can process data at once. If our text or data are bigger than these bits we need to divide it to blocks and encrypt each block separately. Hopefully in node.js we will not need to do it.
+
+Until this steps if you read and understand everything then you are ready to see the code. Let's see how to encrypt and decrypt data using AES encryption in CBC mode with Node.js.
+
+### How to encrypt and decrypt data using AES encryption in CBC mode with Node.js
+We will use the built-in crypto module in Node.js to encrypt and decrypt data using AES encryption in CBC mode. The crypto module provides cryptographic functionality that includes a set of wrappers for OpenSSL's hash, HMAC, cipher, decipher, sign, and verify functions.
+
+```javascript
+const crypto = require('crypto');
+
+// Constants
+const ALGORITHM = 'aes-256-cbc'; // AES in CBC mode
+const KEY = crypto.randomBytes(32); // 256-bit key (must be securely shared)
+const IV_LENGTH = 16; // AES block size (128-bit IV)
+
+// Function to encrypt data (Sender)
+function encryptData(plaintext) {
+    const iv = crypto.randomBytes(IV_LENGTH); // Generate a random IV
+    const cipher = crypto.createCipheriv(ALGORITHM, KEY, iv);
+
+    let encrypted = cipher.update(plaintext, 'utf8', 'hex');
+    encrypted += cipher.final('hex'); // Finalize encryption
+
+    return {
+        iv: iv.toString('hex'), // Send IV as hex
+        encryptedData: encrypted
+    };
+}
+```
+In the above code we imported node.js crypto module and defined some constants like ALGORITHM, KEY, IV_LENGTH. We created a function called encryptData that takes a plaintext as an argument and returns an object with IV and encryptedData. We generated a random IV using crypto.randomBytes() method and created a cipher object using crypto.createCipheriv() method with ALGORITHM, KEY, and IV. We encrypted the plaintext using cipher.update() method and finalized the encryption using cipher.final() method. We returned an object with IV and encryptedData.
+
+```javascript
+// Function to decrypt data (Receiver)
+function decryptData(encryptedData, ivHex) {
+    const iv = Buffer.from(ivHex, 'hex'); // Convert IV back to Buffer
+    const decipher = crypto.createDecipheriv(ALGORITHM, KEY, iv);
+
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8'); // Finalize decryption
+
+    return decrypted;
+}
+
+// Example Usage
+const message = "Hello, this is a secret message!";
+console.log("Original Message:", message);
+
+// Sender encrypts message
+const encryptedPayload = encryptData(message);
+console.log("Encrypted Data:", encryptedPayload.encryptedData);
+console.log("IV:", encryptedPayload.iv);
+
+// Receiver decrypts message
+const decryptedMessage = decryptData(encryptedPayload.encryptedData, encryptedPayload.iv);
+console.log("Decrypted Message:", decryptedMessage);
+```
+In the above code we created a function called decryptData that takes encryptedData and ivHex as arguments and returns the decrypted message. We converted the IV back to a Buffer using Buffer.from() method and created a decipher object using crypto.createDecipheriv() method with ALGORITHM, KEY, and IV. We decrypted the encryptedData using decipher.update() method and finalized the decryption using decipher.final() method. We returned the decrypted message.
+We should not forget that receiver and sender should share the same secret key and sharing key is also another topic. We will not cover it in this article.
+
+One note for above code is that if you payed attention we used buffer based encryption on the above code(If you don't now what is the buffer you can read about it [here](https://nodejs.dev/learn/nodejs-buffers) or my special article about `buffer` " [Node.js “buffer” modulu. Buffer modulunun izahı](https://medium.com/@ebdurrehm/node-js-buffer-modulu-buffer-modulunun-tam-izah%C4%B1-a25e0119457a) " in azerbaijani language ). This code is not efficent for large data. Because buffer take everything I mean all the chunks of data and process it at once. For large data we need to use streams (I will cover streams probably in the next articles). 
+Streams basicaly allow us to take chunks of the data as a stream and process it one by one. As a result, we don't need to wait all data to be loaded to the memory and processed.
+Let's see how to encrypt and decrypt data using streams.
+
+```javascript
+const fs = require('fs');
+const crypto = require('crypto');
+
+const ALGORITHM = 'aes-256-cbc';
+const KEY = crypto.randomBytes(32);  // Secret key (should be securely stored)
+const IV = crypto.randomBytes(16);   // Initialization vector (can be openly shared)
+
+// Encrypt a file using streams
+function encryptFile(inputFile, outputFile) {
+    const cipher = crypto.createCipheriv(ALGORITHM, KEY, IV);
+    const input = fs.createReadStream(inputFile);
+    const output = fs.createWriteStream(outputFile);
+
+    input.pipe(cipher).pipe(output);
+
+    output.on('finish', () => console.log(Encryption completed: ${outputFile}));
+}
+
+// Decrypt a file using streams
+function decryptFile(inputFile, outputFile) {
+    const decipher = crypto.createDecipheriv(ALGORITHM, KEY, IV);
+    const input = fs.createReadStream(inputFile);
+    const output = fs.createWriteStream(outputFile);
+
+    input.pipe(decipher).pipe(output);
+
+    output.on('finish', () => console.log(Decryption completed: ${outputFile}));
+}
+
+// Example usage
+encryptFile('input.txt', 'encrypted.enc');
+decryptFile('encrypted.enc', 'decrypted.txt');
+```
+In the above code we imported the fs module and created two functions called encryptFile and decryptFile that take inputFile and outputFile as arguments and encrypt and decrypt the file using streams. We created a cipher object using crypto.createCipheriv() method with ALGORITHM, KEY, and IV and created a read stream using fs.createReadStream() method for the input file and a write stream using fs.createWriteStream() method for the output file. We piped the input stream to the cipher stream and the cipher stream to the output stream. We listened for the 'finish' event on the output stream and logged a message when the encryption or decryption is completed. We used the same KEY and IV for encryption and decryption. Thanks to streams we can encrypt and decrypt large files without loading the entire file into memory.
+
+
+### Real world example of AES encryption in CBC mode
+AES encryption in CBC mode is widely used in various applications to secure sensitive data. Some common use cases include:
+- Secure communication between clients and servers
+- Secure storage of sensitive data in databases
+- Secure transmission of data over the internet
+- Secure messaging applications
+
+For example https protocol uses AES encryption in CBC mode to secure communication between clients and servers. When you visit a website using https, your browser and the server establish a secure connection using AES encryption in CBC mode to encrypt and decrypt data exchanged between them. This ensures that your data is protected from eavesdroppers and hackers.
+
+Let's implement a real-world example of AES encryption in CBC mode using Node.js. We will create a simple chat application that encrypts and decrypts messages using AES encryption in CBC mode. We will use the built-in net module in Node.js to create a TCP server and client that communicate with each other over a secure connection.
+
+```javascript
+const crypto = require('crypto');
+const fs = require('fs');
+require('dotenv').config();
+
+const ALGORITHM = 'aes-256-cbc';
+const SECRET_KEY = Buffer.from(process.env.SECRET_KEY, 'hex'); // 32-byte key
+const IV_LENGTH = 16; 
+const IV = crypto.randomBytes(IV_LENGTH);
+
+// Encrypts inputFile using AES-256-CBC encryption
+function encryptFile(inputFile, outputFile, iv) {
+    const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
+
+    const input = fs.createReadStream(inputFile);
+    const output = fs.createWriteStream(outputFile);
+
+    input.pipe(cipher).pipe(output);
+
+    console.log("✅ File encrypted successfully! Share this IV separately:", iv.toString('hex'));
+}
+
+// Decrypts encryptedFile using AES-256-CBC decryption
+function decryptFile(encryptedFile, outputFile, iv) {
+    const decipher = crypto.createDecipheriv(ALGORITHM, SECRET_KEY, iv);
+
+    const input = fs.createReadStream(encryptedFile);
+    const output = fs.createWriteStream(outputFile);
+
+    input.pipe(decipher).pipe(output);
+
+    console.log("🔓 File decrypted successfully!");
+}
+
+//  Example usage
+const iv = crypto.randomBytes(IV_LENGTH);
+encryptFile('input.txt', 'encrypted.dat', IV);
+decryptFile('encrypted.dat', 'decrypted.txt', IV);
+```
+
+What we did we created simple file encryption algorithm wich encrypt file content and write it to another file. We used the same IV and key for encryption and decryption. We can use same method for storing user bank card details or any sensitive data to database.
+
+### Conclusion
+
+In this article we talked about AES algorithm, CBC mode, and how to encrypt and decrypt data using AES encryption in CBC mode with Node.js. We covered the basics of encryption, symmetric encryption, AES encryption, CBC mode. We also implemented a real-world example of AES encryption in CBC mode using Node.js. I hope you found this article helpful and learned something new about encryption and Node.js. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
