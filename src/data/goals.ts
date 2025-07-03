@@ -62,7 +62,7 @@ export const goals: YearlyGoals = {
                 status: "in-progress",
                 category: "Health",
                 deadline: "2025-12-31",
-                progress: 20
+                progress: 60
             },
             {
                 title: "Go to the gym, improve the shape of my body",
@@ -78,7 +78,7 @@ export const goals: YearlyGoals = {
                 status: "in-progress",
                 category: "Education",
                 deadline: "2025-12-31",
-                progress: 50
+                progress: 100
             },
             {
                 "title": "Master the fundamentals of computer science",
@@ -86,7 +86,7 @@ export const goals: YearlyGoals = {
                 "status": "in-progress",
                 "category": "Personal",
                 "deadline": "2025-12-31",
-                "progress": 50
+                "progress": 55
             }
             
         ],
