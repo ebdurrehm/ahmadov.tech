@@ -75,7 +75,7 @@ export const goals: YearlyGoals = {
             {
                 title: "Complete this academic year in a foreign university successfully",
                 description: "I am studying in a foreign university and I want to complete this year without any fails, I completed my prevoius degree with a honor degree, currentl I am more focused on career more than student life, so I need to balance both",
-                status: "in-progress",
+                status: "done",
                 category: "Education",
                 deadline: "2025-12-31",
                 progress: 100
