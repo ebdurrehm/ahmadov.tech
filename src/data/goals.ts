@@ -70,7 +70,7 @@ export const goals: YearlyGoals = {
                 status: "in-progress",
                 category: "Health",
                 deadline: "2025-12-31",
-                progress: 0
+                progress: 5
             },
             {
                 title: "Complete this academic year in a foreign university successfully",
