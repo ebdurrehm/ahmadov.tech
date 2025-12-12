@@ -16,7 +16,7 @@ export const activities = [
         company: "Unleash",
         logo: "https://unleash.org/wp-content/uploads/2022/04/UNLEASH_blue-1.png",
         year: "2024",
-        image: "./../public/images/unleash.jpeg",
+        image: "/images/unleash.jpeg",
         link:"https://unleash.org/rwanda/",
         description: "I was selected as a `global talent` to participate in the Unleash Innovation Lab in 2024."
     },
@@ -26,7 +26,7 @@ export const activities = [
         company: "Deutsche Telecom Slovakia",
         logo: "https://cdn.imgbin.com/16/8/4/imgbin-pink-area-text-symbol-t-mobile-t-mobile-logo-LD71Bh4mY8W8xgaQkntcruRBm.jpg",
         year: '2025',
-        image:"./../public/images/d-hackhaton.jpeg",
+        image:"/images/d-hackhaton.jpeg",
         description: "Our team won in the Autonomous Agents challenge at the Deutsche Telekom Slovakia hackathon in Košice! 🎉e joined the Autonomous Agents challenge and built a system that can create full projects from just a prompt. It can research, plan, write code, create tests, and run everything on its own."
     },
     {
@@ -35,7 +35,7 @@ export const activities = [
         company: "Huawei",
         logo: "https://cdn.imgbin.com/23/12/5/huawei-logo-WVx0sryC.jpg",
         year: "2025",
-        image: "./../public/images/huawei.jpeg",
+        image: "/images/huawei.jpeg",
         description: "I’ve completed the Seeds for the Future program by Huawei! 🌱It was a great experience to learn about emerging technologies like hashtag#AI, hashtag#5G, and cloud computing, while also connecting with people from different backgrounds and cultures. "
     },
     {
